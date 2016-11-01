@@ -1,3 +1,3 @@
 module.exports = function(query = {}, models) {
-	return "list"
+	return models.users.find({});
 }

@@ -1,14 +1,17 @@
 const mongoose = require('mongoose');
 const createModels = require('./createModels');
 
+//queries:
+const list = require('./query/list');
+const createUser = require('./query/createUser');
+
 module.exports = function(uri){
-	
 	mongoose.connect(uri);
 
-	const store = {};
 	const models = createModels(uri);
-	
-	store.createUser = data => models.users.create(data) 
+	const store = {};
+
+	store.createUser = data => createUser(data, models);
 	store.list = query => list(query, models);
 
 	return store;
