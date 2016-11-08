@@ -8,5 +8,13 @@ module.exports = function (store) {
 	app.use(respondo.responders());
 	app.use(routes(store));
 
+	app.use('/*', (err, req, res, next) => // next has to be an argument for the error handling to work??
+		res.failure(err, 500)
+	);
+
+	app.use('/*', (req, res) =>
+		res.failure('Not a valid path', 404)
+	);
+
 	return app;
 };
