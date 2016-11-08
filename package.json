@@ -2,12 +2,15 @@
   "name": "mugs",
   "version": "1.0.0",
   "description": "Module for handling users",
-  "main": "index.js",
+  "main": "module.js",
+  "bin": {
+    "mugs": "server.js"
+  },
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "start": "rumor=trace nodemon index.js ",
+    "start": "db=localhost:27017 rumor=trace nodemon server.js",
     "test": "/test/"
   },
   "repository": {
