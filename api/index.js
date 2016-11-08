@@ -4,8 +4,8 @@ const respondo = require('respondo');
 module.exports = function(store) {
 
 	const app = express();
-	
-	app.use(respondo.responders())
+
+	app.use(respondo.responders());
 
 	app.get('/', (req, res) => 
 		store.list()
