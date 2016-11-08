@@ -5,6 +5,8 @@ const createModels = require('./createModels');
 const listUsers = require('./query/list');
 const createUser = require('./query/createUser');
 const deleteUser = require('./query/deleteUser');
+const resetDB = require('./query/resetDB');
+
 
 module.exports = function(uri){
 	
@@ -16,6 +18,7 @@ module.exports = function(uri){
 	store.list = query => listUsers(query, models);
 	store.delete = id => deleteUser(id, models); 
 	store.get = id => getUser(id, models); 
-	store.modify = (body) => modifyUser(body. models)
+	store.modify = (body) => modifyUser(body, models);
+	store.reset = () => resetDB(mongoose);
 	return store;
 }

@@ -1,35 +1,43 @@
 const express = require('express');
-const payload = require('./payload');
+const respondo = require('respondo');
 
 module.exports = function(store) {
 
 	const app = express();
 	
-	app.get('/list', (req, res) => 
+	app.use(respondo.responders())
+
+	app.get('/', (req, res) => 
 		store.list()
 		.then(result => res.send(result))
 		.catch(err => res.send(err))
 	);
 
-	app.get('/get/:id', (req, res) => 
+	app.get('/:id', (req, res) => 
 		store.get(req.params.id)
 		.then(result => res.send(result))
 		.catch(err => res.send(err))
 	);
 
-	app.post('/create', (req, res) => 
+	app.post('/', (req, res) => 
 		store.create({name: "nikolaj", password: "yo"})
 		.then(result => res.send(result))
 		.catch(err => res.send(err))
 	);
 
-	app.delete('/delete/:id', (req, res) => 
+	app.delete('/users', (req, res) => 
+		store.reset()
+		.then(result => res.send(result))
+		.catch(result => res.send(result))
+	)
+
+	app.delete('/:id', (req, res) => 
 		store.delete(req.params.id)
 		.then(result => res.send(result))
 		.catch(result => res.send(result))
 	);
 
-	app.put('/modify/', (req, res) => 
+	app.put('/', (req, res) => 
 		store.modify(req.body)
 		.then(result => res.send(result))
 		.catch(result => res.send(result))
@@ -40,6 +48,7 @@ module.exports = function(store) {
 		.then(result => res.send(result))
 		.catch(result => res.send(result))
 	);
+
 
 	return app;
 }
