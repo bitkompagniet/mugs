@@ -1,3 +1,3 @@
-module.exports = function(id, models) {
+module.exports = function (id, models) {
 	return models.users.findByIdAndRemove(id);
-}
+};

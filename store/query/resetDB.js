@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
-module.exports = function (models) {
+
+module.exports = function () {
 	return mongoose.connection.db.dropDatabase();
-}
+};
