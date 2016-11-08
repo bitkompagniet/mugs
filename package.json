@@ -4,13 +4,13 @@
   "description": "Module for handling users",
   "main": "module.js",
   "bin": {
-    "mugs": "server.js"
+    "mugs": "run-server.js"
   },
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "start": "db=localhost:27017 rumor=trace nodemon server.js",
+    "start": "db=localhost:27017 rumor=trace nodemon run-server.js",
     "test": "/test/"
   },
   "repository": {

@@ -1,2 +1,2 @@
 docker pull mongo
-docker run -p 28002:27017 mongo 
+docker run -p 27017:27017 mongo 
