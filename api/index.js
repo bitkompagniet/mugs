@@ -1,8 +1,9 @@
 const express = require('express');
-const app = express();
 const payload = require('./payload');
 
 module.exports = function(store) {
+
+	const app = express();
 	
 	app.get('/list', (req, res) => 
 		store.list()
@@ -29,7 +30,7 @@ module.exports = function(store) {
 	);
 
 	app.put('/modify/', (req, res) => 
-		store.put(req.body)
+		store.modify(req.body)
 		.then(result => res.send(result))
 		.catch(result => res.send(result))
 	);
@@ -40,5 +41,5 @@ module.exports = function(store) {
 		.catch(result => res.send(result))
 	);
 
-	app.listen(3000); 
+	return app;
 }

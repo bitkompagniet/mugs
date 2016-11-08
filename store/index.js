@@ -16,6 +16,6 @@ module.exports = function(uri){
 	store.list = query => listUsers(query, models);
 	store.delete = id => deleteUser(id, models); 
 	store.get = id => getUser(id, models); 
-	store.modify = (id, body) => modifyUser
+	store.modify = (body) => modifyUser(body. models)
 	return store;
 }
