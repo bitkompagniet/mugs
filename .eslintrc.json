@@ -7,6 +7,9 @@
     "new-cap": ["error", { "properties": false }],
     "no-underscore-dangle": "off",
     "max-len": "off",
-    "no-tabs": "off"
+    "no-tabs": "off",
+    "prefer-arrow-callback": "off",
+    "space-before-function-paren": "off",
+    "import/no-extraneous-dependencies": [2, { "devDependencies": true }]
   }
 }

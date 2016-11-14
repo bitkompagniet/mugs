@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
 const createModels = require('./createModels');
+const resetDB = require('./util/resetDB');
 
-const getUser = require('./query/getUser');
-const listUsers = require('./query/list');
-const createUser = require('./query/createUser');
-const deleteUser = require('./query/deleteUser');
-const resetDB = require('./query/resetDB');
-const addRole = require('./query/addRole');
+mongoose.Promise = Promise;
 
 module.exports = function (uri) {
 	if (!uri) throw new Error('db uri required.');
@@ -15,11 +11,16 @@ module.exports = function (uri) {
 	const models = createModels(uri);
 
 	const store = {};
-	store.create = data => createUser(data, models);
-	store.list = query => listUsers(query, models);
-	store.delete = id => deleteUser(id, models);
-	store.get = id => getUser(id, models);
-	store.addRole = (id, role) => addRole(id, role, models);
+	store.create = data => models.users.create(data).then(user => user.toJSON());
+	store.list = query => models.users.list(query);
+	store.delete = id => models.users.delete(id);
+	store.get = id => models.users.get(id, models);
+	store.addRole = (id, role) => models.users.addRole(id, role);
+	store.removeRole = (id, role) => models.users.removeRole(id, role);
 	store.reset = () => resetDB();
+	store.modify = user => models.users.modify(user, models);
+	store.confirm = (email, confirmationToken) => models.users.confirmRegistration(email, confirmationToken);
+	store.requestRecoveryToken = email => models.users.requestRecoveryToken(email, models);
+
 	return store;
 };
