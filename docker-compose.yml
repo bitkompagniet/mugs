@@ -1,0 +1,11 @@
+mugs:
+  ports:
+      - "3000:3000"
+  build: .
+  environment:
+    db: mongo
+  links:
+    - mongo
+
+mongo:
+  image: mongo
