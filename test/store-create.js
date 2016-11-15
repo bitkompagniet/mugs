@@ -10,7 +10,7 @@ describe('store', function () {
 
 	// before(() => store.reset());
 
-	describe('.create', function() {
+	describe('.create', function () {
 		it('should be able to create and read back a user', function() {
 			return store.create({ username: 'parkov' })
 				.then(rumor.debug)
