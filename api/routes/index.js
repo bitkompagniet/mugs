@@ -1,4 +1,5 @@
 const express = require('express');
+const mail = require('../../lib/mail');
 
 module.exports = function createRouter(store) {
 	const router = express.Router();
@@ -15,7 +16,7 @@ module.exports = function createRouter(store) {
 	);
 
 	router.post('/', (req, res) =>
-		store.create({ name: 'nikolaj', password: 'yo' })
+		store.create(req.body)
 		.then(result => res.success(result))
 		.catch(err => res.failure(err))
 	);
@@ -43,5 +44,14 @@ module.exports = function createRouter(store) {
 		.then(result => res.success(result))
 		.catch(result => res.failure(result))
 	);
+
+	router.post('/mail/:id', (req, res) =>
+		store.get(req.params.id)
+			.then(result => mail(result, process.env.smtp, '/email_templates/confirmation.hbs')
+				.then(mailsucces => res.success(mailsucces))
+				.catch(mailfailure => res.reject(mailfailure)))
+			.catch(err => res.failure(err))
+	);
+
 	return router;
 };

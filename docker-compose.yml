@@ -3,6 +3,7 @@ mugs:
       - "3000:3000"
   build: .
   environment:
+    smtp: smtps://system@bitkompagniet.dk:hattefar@smtp.gmail.com:465
     db: mongo
   links:
     - mongo

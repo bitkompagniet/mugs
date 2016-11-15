@@ -1,10 +1,12 @@
 const express = require('express');
 const respondo = require('respondo');
-const routes = require('../routes');
+const routes = require('./routes');
+const bodyParser = require('body-parser');
 
 module.exports = function (store) {
 	const app = express();
 
+	app.use(bodyParser.json());
 	app.use(respondo.responders());
 	app.use(routes(store));
 
