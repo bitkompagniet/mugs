@@ -30,7 +30,7 @@
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.16.6",
     "mongoose": "^4.6.5",
-    "respondo": "^0.2.0",
+    "respondo": "0.3.1",
     "rumor": "^1.0.0",
     "validator": "^6.1.0"
   },
