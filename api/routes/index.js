@@ -1,16 +1,13 @@
 const express = require('express');
+const requireAuthentication = require('../middleware/requireAuthentication');
 const me = require('../controllers/me');
+const list = require('../controllers/list');
 
 module.exports = function createRouter(store) {
 	const router = express.Router();
 
-	router.get('/me', me(store));
-
-	router.get('/', (req, res) =>
-		store.list()
-		.then(result => res.success(result))
-		.catch(err => res.failure(err))
-	);
+	router.get('/me', requireAuthentication(), me(store));
+	router.get('/', requireAuthentication(), list(store));
 
 	router.get('/:id', (req, res) =>
 		store.get(req.params.id)
