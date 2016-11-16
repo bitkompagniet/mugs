@@ -2,12 +2,16 @@ const express = require('express');
 const requireAuthentication = require('../middleware/requireAuthentication');
 const me = require('../controllers/me');
 const list = require('../controllers/list');
+const rumor = require('rumor')('mugs:routes');
 
 module.exports = function createRouter(store) {
 	const router = express.Router();
 
 	router.get('/me', requireAuthentication(), me(store));
-	router.get('/', requireAuthentication(), list(store));
+	router.get('/', (req, res, next) => {
+		rumor.info(req.rights.can('editDetails', 'publishers', 'member@publishers'));
+		return next();
+	});
 
 	router.get('/:id', (req, res) =>
 		store.get(req.params.id)

@@ -19,9 +19,10 @@
 
 # Internal roles
 
-- mugs-admin: can edit all data.
-- admin.`[group]`: Read and control memberships in [group].
-- member.`[group]`: Read in [group].
+- owner@*: change user rights for users in any group
+- owner@publishers: change user rights for users in group
+- admin@publishers: edit users in group, add or remove users from group
+- member@publishers: view users in group
 
 # Endpoints
 

@@ -1,5 +1,6 @@
 const express = require('express');
 const respondo = require('respondo');
+const permissionMatrix = require('./middleware/permissionMatrix');
 const routes = require('./routes');
 
 module.exports = function (store, { secret }) {
@@ -7,9 +8,9 @@ module.exports = function (store, { secret }) {
 
 	app.use(respondo.responders());
 	app.use(respondo.authorizationIdentity(secret));
-	app.use(routes(store));
+	app.use(permissionMatrix());
 
-	app.use(respondo.errors());
+	app.use(routes(store));
 
 	return app;
 };
