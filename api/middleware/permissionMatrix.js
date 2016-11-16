@@ -30,7 +30,7 @@ function roleAndGroup(s) {
 }
 
 function can(action, group, roleStrings) {
-	if (!roleStrings) return false;
+	if (!roleStrings || roleStrings.length === 0) return false;
 	const roles = ((Array.isArray(roleStrings) && roleStrings) || [roleStrings]).map(roleAndGroup);
 	return roles.some(i => (i.group === '*' || i.group === group) && matrix[i.role].includes(action));
 }
