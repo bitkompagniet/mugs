@@ -1,20 +1,15 @@
 const express = require('express');
 const respondo = require('respondo');
-const routes = require('../routes');
+const routes = require('./routes');
 
-module.exports = function (store) {
+module.exports = function (store, { secret }) {
 	const app = express();
 
 	app.use(respondo.responders());
+	app.use(respondo.authorizationIdentity(secret));
 	app.use(routes(store));
 
-	app.use((err, req, res, next) => // eslint-disable-line no-unused-vars
-		res.failure(err, 500)
-	);
-
-	app.use((req, res) =>
-		res.failure('Not a valid path', 404)
-	);
+	app.use(respondo.errors());
 
 	return app;
 };

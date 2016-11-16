@@ -1,7 +1,11 @@
 const express = require('express');
+const me = require('../controllers/me');
 
 module.exports = function createRouter(store) {
 	const router = express.Router();
+
+	router.get('/me', me(store));
+
 	router.get('/', (req, res) =>
 		store.list()
 		.then(result => res.success(result))

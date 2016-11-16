@@ -20,7 +20,8 @@
 # Internal roles
 
 - mugs-admin: can edit all data.
-- mugs-user-manager: can edit all users indiscriminately, except those with the mugs-admin role.
+- admin.`[group]`: Read and control memberships in [group].
+- member.`[group]`: Read in [group].
 
 # Endpoints
 

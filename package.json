@@ -10,7 +10,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "db=localhost:27017 rumor=trace nodemon run-server.js",
+    "start": "db=localhost:27017 rumor=trace secret=sssshh nodemon server.js",
     "test": "/test/"
   },
   "repository": {
@@ -25,7 +25,6 @@
   "homepage": "https://github.com/bitkompagniet/mugs#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
-    "debug": "^2.2.0",
     "express": "^4.14.0",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.16.6",
