@@ -877,7 +877,7 @@ jsonpointer@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/jsonpointer/-/jsonpointer-4.0.0.tgz#6661e161d2fc445f19f98430231343722e1fcbd5"
 
-jsonwebtoken:
+jsonwebtoken, jsonwebtoken@^7.1.9:
   version "7.1.9"
   resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-7.1.9.tgz#847804e5258bec5a9499a8dc4a5e7a3bae08d58a"
   dependencies:
@@ -1325,12 +1325,14 @@ resolve@^1.1.6:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
 
-respondo:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/respondo/-/respondo-0.2.0.tgz#912cabe1d2522ca79d4f19df0b4243924e1d233d"
+respondo@0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/respondo/-/respondo-0.3.2.tgz#f38b1b7cd347884cba99bba7dc5a7e2805b357bb"
   dependencies:
     js2xmlparser "^2.0.2"
+    jsonwebtoken "^7.1.9"
     lodash "^4.16.1"
+    rumor "^1.0.0"
 
 restore-cursor@^1.0.1:
   version "1.0.1"
