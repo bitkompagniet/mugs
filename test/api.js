@@ -124,6 +124,29 @@ describe('api', function () {
 		});
 	});
 
+
+	describe('/:id/data', function () {
+		it('should be able to GET the data object of a specific user with a served ID', function() {
+			return client
+			.get('/:id/data')
+			.then(getData)
+			.then((data) => {
+				data.code.should.equal(401);
+				should.not.exist(data.result);
+			});
+			
+		});
+
+		it('Should be able to POST the data object of a specific user with a served ID', function() {
+			return client
+			.post('/:id/data')
+			.then(getResult)
+			.then((data) => {
+				should.exist(data);
+			});
+		});
+	});
+
 	after(() => {
 		serverInstance.close();
 	});

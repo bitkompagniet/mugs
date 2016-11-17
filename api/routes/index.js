@@ -4,13 +4,19 @@ const me = require('../controllers/me');
 const register = require('../controllers/register');
 const login = require('../controllers/login');
 const verify = require('../controllers/verify');
+const dataPoster = require('../controllers/dataposter');
+const dataGetter = require('../controllers/datagetter');
 
 module.exports = function createRouter(store, secret) {
 	const router = express.Router();
+
 	router.post('/register', register(store));
 	router.post('/login', login(store, secret));
+	router.post('/:id/data', dataPoster(store));
+
 	router.get('/verify/:token', verify(store, secret));
 	router.get('/me', requireAuthentication(), me(store, secret));
+	router.get('/:id/data', dataGetter(store));
 
 	// router.post('/register');
 	// router.get('/register/:token');
@@ -55,17 +61,5 @@ module.exports = function createRouter(store, secret) {
 
 
 	// router.get('/', (req, res) => res.send('Hello!'));
-	router.post('/:id/data', (req, res) =>
-		store.postData(req.body.id, req.body.data)
-		.then(result => res.success(result))
-		.catch(result => res.faliure(result))
-	); 
-
-	router.get('/:id/data', (req, res) =>
-		store.getData(req.body.id, req.body.data)
-		.then(result => res.success(result))
-		.catch(result => res.faliure(result))
-	);
-
 	return router;
 };
