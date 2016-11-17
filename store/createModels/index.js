@@ -28,7 +28,7 @@ function single(result) {
 	throw new Error('Single element required, but object had unexpected length or was not an array.');
 }
 
-module.exports = function () {
+module.exports = function (db) {
 	const userSchema = new Schema({
 		// Required
 		email: { type: String, required: true, index: { unique: true }, validate: value => validator.isEmail(value) },
@@ -139,6 +139,7 @@ module.exports = function () {
 	userSchema.statics.confirmRegistration = function(email, confirmationToken) {
 		return this.getByEmail(email)
 			.then((user) => {
+				rumor.info(user);
 				if (!user.confirmationToken.equals(confirmationToken)) throw new Error('Confirmation tokens did not match.');
 				return user;
 			})
@@ -169,6 +170,6 @@ module.exports = function () {
 	};
 
 	return {
-		users: mongoose.model('User', userSchema),
+		users: db.model('User', userSchema),
 	};
 };
