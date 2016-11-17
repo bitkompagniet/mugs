@@ -7,11 +7,18 @@ const rumor = require('rumor')('mugs:routes');
 module.exports = function createRouter(store) {
 	const router = express.Router();
 
-	router.get('/me', requireAuthentication(), me(store));
-	router.get('/', (req, res, next) => {
-		rumor.info(req.rights.can('editDetails', 'publishers', 'member@publishers'));
-		return next();
-	});
+	router.get('/', (req, res) => res.success('yes'));
+
+	// router.post('/register');
+	// router.get('/register/:token');
+	// router.get('/me', requireAuthentication(), me(store));
+	// router.post('/recover/:email');
+	// router.get('/recover/:token');
+	// router.get('/');
+	// router.get('/:id');
+	// router.post('/');
+	// router.put('/');
+	// router.delete('/:id');
 
 	router.get('/:id', (req, res) =>
 		store.get(req.params.id)

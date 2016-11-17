@@ -10,7 +10,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "db=localhost:27017 rumor=trace secret=sssshh nodemon server.js",
+    "start": "db=localhost:27017 rumor=trace secret=sssshh nodemon run-server.js",
     "test": "/test/"
   },
   "repository": {
@@ -34,6 +34,7 @@
     "validator": "^6.1.0"
   },
   "devDependencies": {
+    "axios": "^0.15.2",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "eslint": "^3.9.1",

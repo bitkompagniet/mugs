@@ -7,7 +7,7 @@ mongoose.Promise = Promise;
 module.exports = function (uri) {
 	if (!uri) throw new Error('db uri required.');
 
-	mongoose.connect(uri);
+	mongoose.connect(uri).then(() => console.log('OPENED'));
 	const models = createModels(uri);
 
 	const store = {};

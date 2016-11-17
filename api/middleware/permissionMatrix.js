@@ -36,14 +36,17 @@ function can(action, group, roleStrings) {
 }
 
 module.exports = function() {
-	rumor.info('Added permission matrix middleware.');
+	rumor.debug('Added permission matrix middleware.');
 	return function(req, res, next) {
+		const id = req.identity.authenticated && req.identity.user._id;
 		const roles = req.identity.authenticated && req.identity.user.roles;
 		req.rights = { can: (action, group, role = roles) => can(action, group, role) };
 
 		Object.keys(permissions).forEach((key) => {
 			req.rights[`can${key}`] = (group, role = roles) => can(key, group, role);
 		});
+
+		req.rights.isSelf = targetId => targetId === id;
 
 		return next();
 	};

@@ -2,7 +2,7 @@
 
 const api = require('./api');
 const createStore = require('./store');
-const rumor = require('rumor')();
+const server = require('./server');
 
 function required(name) {
 	if (process.env[name]) return process.env[name];
@@ -13,4 +13,4 @@ const db = required('db');
 const secret = required('secret');
 
 const store = createStore(db);
-api(store, { secret }).listen(3000, () => rumor.info('Server started.'));
+server(api(store, { secret }));
