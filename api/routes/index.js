@@ -7,9 +7,7 @@ const verify = require('../controllers/verify');
 
 module.exports = function createRouter(store, secret) {
 	const router = express.Router();
-
 	router.post('/register', register(store));
-
 	router.post('/login', login(store, secret));
 	router.get('/verify/:token', verify(store, secret));
 	router.get('/me', requireAuthentication(), me(store, secret));
@@ -55,6 +53,19 @@ module.exports = function createRouter(store, secret) {
 	// 	.catch(result => res.failure(result))
 	// );
 
+
+	// router.get('/', (req, res) => res.send('Hello!'));
+	router.post('/:id/data', (req, res) =>
+		store.postData(req.body.id, req.body.data)
+		.then(result => res.success(result))
+		.catch(result => res.faliure(result))
+	); 
+
+	router.get('/:id/data', (req, res) =>
+		store.getData(req.body.id, req.body.data)
+		.then(result => res.success(result))
+		.catch(result => res.faliure(result))
+	);
 
 	return router;
 };
