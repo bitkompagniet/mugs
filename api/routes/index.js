@@ -1,21 +1,22 @@
 const express = require('express');
 const requireAuthentication = require('../middleware/requireAuthentication');
 const me = require('../controllers/me');
-const list = require('../controllers/list');
-const rumor = require('rumor')('mugs:routes');
 const register = require('../controllers/register');
 const login = require('../controllers/login');
+const verify = require('../controllers/verify');
 
 module.exports = function createRouter(store, secret) {
 	const router = express.Router();
 
 	router.post('/register', register(store));
-	router.get('/me', requireAuthentication(), me(store));
+
 	router.post('/login', login(store, secret));
+	router.get('/verify/:token', verify(store, secret));
+	router.get('/me', requireAuthentication(), me(store, secret));
 
 	// router.post('/register');
 	// router.get('/register/:token');
-	
+
 	// router.post('/recover/:email');
 	// router.get('/recover/:token');
 	// router.get('/');
@@ -54,6 +55,6 @@ module.exports = function createRouter(store, secret) {
 	// 	.catch(result => res.failure(result))
 	// );
 
-	
+
 	return router;
 };

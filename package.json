@@ -28,6 +28,7 @@
     "express": "^4.14.0",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.16.6",
+    "moment": "^2.16.0",
     "mongoose": "^4.6.5",
     "respondo": "0.3.2",
     "rumor": "^1.0.0",

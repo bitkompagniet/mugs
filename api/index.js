@@ -14,5 +14,7 @@ module.exports = function (store, { secret }) {
 
 	app.use(routes(store, secret));
 
+	app.use(respondo.errors());
+
 	return app;
 };
