@@ -13,6 +13,8 @@ module.exports = function createRouter(store) {
 		return next();
 	});
 
+	// router.get('/', (req, res) => res.send('Hello!'));
+
 	router.get('/:id', (req, res) =>
 		store.get(req.params.id)
 		.then(result => res.success(result))
@@ -49,21 +51,20 @@ module.exports = function createRouter(store) {
 		.catch(result => res.failure(result))
 	);
 
-	//TODO: Run test of store object
-	// TAKE ON API REQUEST--------------------------------------------
-	
+
+
 	router.post('/:id/data', (req, res) =>
-		store.postData(req.body.id, req.body.data) //.data
+		store.postData(req.body.id, req.body.data)
 		.then(result => res.success(result))
 		.catch(result => res.faliure(result))
 	); 
 
 	router.get('/:id/data', (req, res) =>
-		store.getData(req.body.id, req.body.data) //.data
+		store.getData(req.body.id, req.body.data)
 		.then(result => res.success(result))
 		.catch(result => res.faliure(result))
 	); 
 
-	// -------------------------------------------------------------
+
 	return router;
 };

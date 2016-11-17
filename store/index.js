@@ -16,7 +16,6 @@ module.exports = function (uri) {
 	store.delete = id => models.users.delete(id);
 	store.get = id => models.users.get(id, models);
 
-	//first take 
 	store.getData = (id, data) => models.users.get(id, data);
 	store.postData = (id, data) => models.users.post(id, data);
 
