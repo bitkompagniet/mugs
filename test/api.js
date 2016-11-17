@@ -27,25 +27,45 @@ describe('api', function () {
 		headers: {
 			'Content-Type': 'application/json',
 		},
+		validateStatus: () => true,
 	});
 
 	const getData = data => data.data;
+	const getResult = data => data.data.result;
 
-	describe('/', function() {
-		it('should return ok', function() {
+	describe('/register', function() {
+		it('should allow e-mail bob@bitkompagniet.dk, fullname Bob Doe and password !supersecret29', function() {
 			return client
-				.get('/')
-				.then(getData)
-				.should.eventually.have.property('code', 200);
+				.post('/register', { email: 'bob@bitkompagniet.dk', fullname: 'Bob Doe', password: '!supersecret29' })
+				.then(getResult)
+				.then((user) => {
+					should.exist(user);
+					should.not.exist(user.confirmed);
+				});
 		});
 	});
 
-	describe('/register', function() {
-		it('should allow a registration', function() {
+	describe('/login', function() {
+		it('should be able to login with bob@bitkompagniet.dk:!supersecret29', function() {
 			return client
-				.post('/register', { email: 'parkov' })
+				.post('/login', { email: 'bob@bitkompagniet.dk', password: '!supersecret29' })
+				.then(getResult)
+				.then((payload) => {
+					should.exist(payload);
+					payload.token.should.be.a('string');
+					payload.user.should.be.an('object');
+				});
+		});
+
+		it('should not be able to login with bob@bitkompagniet.dk:1234', function() {
+			return client
+				.post('/login', { email: 'bob@bitkompagniet.dk', password: '1234' })
 				.then(getData)
-				.should.eventually.have.property('code', 200);
+				.then((data) => {
+					data.code.should.equal(401);
+					should.exist(data.error);
+					data.error.should.contain('Wrong');
+				});
 		});
 	});
 

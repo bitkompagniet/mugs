@@ -79,7 +79,10 @@ module.exports = function (db) {
 
 	userSchema.statics.auth = function(email, password) {
 		const hash = passwordHash(password);
-		return this.find({ email, password: hash }).then(singleOrNull).then(res => res.toJSON());
+		return this.find({ email, password: hash })
+			.then(single)
+			.then(res => res.toJSON())
+			.catch(() => Promise.reject('Wrong e-mail or password'));
 	};
 
 	userSchema.statics.modify = function(body) {

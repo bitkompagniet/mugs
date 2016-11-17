@@ -3,11 +3,20 @@ const createModels = require('./createModels');
 const resetDB = require('./util/resetDB');
 
 mongoose.Promise = Promise;
-// let store = null;
+
+function formatError(err) {
+	if (err.name && err.name === 'ValidationError') {
+		const formatted = Object.keys(err.errors)
+			.map(key => err.errors[key])
+			.map(obj => ({ field: obj.path, type: obj.kind, message: obj.message }));
+
+		return Promise.reject({ type: 'validation', errors: formatted });
+	}
+
+	return Promise.reject(err);
+}
 
 module.exports = function (uri) {
-	// if (store) return store;
-
 	const store = {};
 
 	if (!uri) throw new Error('db uri required.');
@@ -17,7 +26,8 @@ module.exports = function (uri) {
 
 	const models = createModels(store.connection);
 
-	store.create = data => models.users.create(data).then(user => user.toJSON());
+	store.create = data => models.users.create(data).then(user => user.toJSON()).catch(formatError);
+	store.login = (email, password) => models.users.auth(email, password);
 	store.list = query => models.users.list(query);
 	store.delete = id => models.users.delete(id);
 	store.get = id => models.users.get(id, models);
