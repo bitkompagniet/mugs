@@ -11,8 +11,7 @@
 	"confirmationToken": MongoId,
 	"confirmed": Date,
 	"resetPasswordToken": MongoId,
-	"roles": [String],
-	"groups": [String],
+	"roles": [{ role: String, group: String }],
 	"data": {},
 }
 ```

@@ -39,8 +39,10 @@ module.exports = function (db) {
 		confirmationToken: { type: Schema.Types.ObjectId, default: oid },
 		confirmed: { type: Date, default: null },
 		resetPasswordToken: { type: Schema.Types.ObjectId, default: null },
-		roles: [String],
-		groups: [String],
+		roles: [{
+			role: String,
+			group: String,
+		}],
 		data: {},
 	}, {
 		toJSON: {
@@ -104,27 +106,15 @@ module.exports = function (db) {
 			});
 	};
 
-	userSchema.statics.addRole = function (_id, role) {
+	userSchema.statics.addRole = function (_id, role, group) {
 		return this.findOneAndUpdate({ _id }, {
-			$addToSet: { roles: role },
+			$addToSet: { roles: { role, group } },
 		});
 	};
 
-	userSchema.statics.removeRole = function (_id, role) {
+	userSchema.statics.removeRole = function (_id, role, group) {
 		return this.findOneAndUpdate({ _id }, {
-			$pull: { roles: role },
-		});
-	};
-
-	userSchema.statics.addToGroup = function (_id, group) {
-		return this.findOneAndUpdate({ _id }, {
-			$addToSet: { groups: group },
-		});
-	};
-
-	userSchema.statics.removeFromGroup = function(_id, group) {
-		return this.findOneAndUpdate({ _id }, {
-			$pull: { groups: group },
+			$pull: { roles: { role, group } },
 		});
 	};
 

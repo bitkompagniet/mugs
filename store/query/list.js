@@ -4,7 +4,13 @@ module.exports = function(query = {}) {
 	const filters = [];
 
 	if (query.search) filters.push({ $text: { $search: query.search } });
-	if (query.groups) filters.push({ groups: { $in: query.groups } });
+
+	if (query.groups) {
+		const groups = Array.isArray(query.groups) ? query.groups : [query.groups];
+
+		// This query selects all users that belong to any of the groups given
+		filters.push({ roles: { $elemMatch: { group: { $in: groups } } } });
+	}
 
 	const filterExpression = { $and: filters };
 
