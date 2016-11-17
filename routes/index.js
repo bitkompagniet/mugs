@@ -43,5 +43,22 @@ module.exports = function createRouter(store) {
 		.then(result => res.success(result))
 		.catch(result => res.failure(result))
 	);
+
+	//TODO: Run test of store object
+	// TAKE ON API REQUEST--------------------------------------------
+	
+	router.post('/:id/data', (req, res) =>
+		store.postData(req.body.id, req.body.data) //.data
+		.then(result => res.success(result))
+		.catch(result => res.faliure(result))
+	); 
+
+	router.get('/:id/data', (req, res) =>
+		store.getData(req.body.id, req.body.data) //.data
+		.then(result => res.success(result))
+		.catch(result => res.faliure(result))
+	); 
+
+	// -------------------------------------------------------------
 	return router;
 };

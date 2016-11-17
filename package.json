@@ -10,7 +10,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "db=localhost:27017 rumor=trace nodemon run-server.js",
+    "start": "nodemon run-server.js",
     "test": "/test/"
   },
   "repository": {
@@ -30,6 +30,7 @@
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.16.6",
     "mongoose": "^4.6.5",
+    "nodemon": "^1.11.0",
     "respondo": "^0.2.0",
     "rumor": "^1.0.0",
     "validator": "^6.1.0"
