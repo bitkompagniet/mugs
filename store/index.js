@@ -31,6 +31,10 @@ module.exports = function (uri) {
 	store.list = query => models.users.list(query);
 	store.delete = id => models.users.delete(id);
 	store.get = id => models.users.get(id, models);
+
+	store.getData = (id, data) => models.users.get(id, data);
+	store.postData = (id, data) => models.users.post(id, data);
+
 	store.addRole = (id, role) => models.users.addRole(id, role);
 	store.removeRole = (id, role) => models.users.removeRole(id, role);
 	store.reset = () => resetDB(store);
