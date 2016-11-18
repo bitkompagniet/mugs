@@ -137,14 +137,19 @@ describe('api', function () {
 			})
 		});
 
-		//only post user data if the person trying to post is the user.
-		//only post user data if the person trying to post is admin of a group with the user in it.
+
+		// meeh..
 		it('should be able to post data if user is self or admin for group that self belongs to', function() {
 			return client
 			.post('/:id/data')
-
+			.then(get('/:id')
+				.then((data) => {data.result.id.should.have.same.id({id: {toString: function() { return data.result.id }}})})
+				.then((data) => {data.result.roles.should.contain({"role":"admin"})})
+			)
+			.then((data) => {
+				data.code.should.equal(200);
+			});
 		});
-		// -----------------------------------------------------------
 	});
 
 	after(() => {
