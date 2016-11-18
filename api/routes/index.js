@@ -4,19 +4,19 @@ const me = require('../controllers/me');
 const register = require('../controllers/register');
 const login = require('../controllers/login');
 const verify = require('../controllers/verify');
-const dataPoster = require('../controllers/dataposter');
-const dataGetter = require('../controllers/datagetter');
+const postData = require('../controllers/dataposter');
+const getData = require('../controllers/datagetter');
 
 module.exports = function createRouter(store, secret) {
 	const router = express.Router();
 
 	router.post('/register', register(store));
 	router.post('/login', login(store, secret));
-	router.post('/:id/data', dataPoster(store));
+	router.post('/:id/data', postData(store));
 
 	router.get('/verify/:token', verify(store, secret));
 	router.get('/me', requireAuthentication(), me(store, secret));
-	router.get('/:id/data', dataGetter(store));
+	router.get('/:id/data', getData(store));
 
 	// router.post('/register');
 	// router.get('/register/:token');

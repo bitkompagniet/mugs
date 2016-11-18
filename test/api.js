@@ -127,9 +127,10 @@ describe('api', function () {
 
 	//unit tests of user
 	describe('/:id/data', function () {
+		const url = '/:id/data';
 		it('should be able to get data from user', function() {
 			return client
-			.get('/:id/data')
+			.get(url)
 			.then((data) => {
 				expect(data).to.be(Object);
 				should.exist(data.result);
@@ -137,19 +138,43 @@ describe('api', function () {
 			})
 		});
 
-
-		// meeh..
-		it('should be able to post data if user is self or admin for group that self belongs to', function() {
+		it('should be able to post data to myself', function(){
 			return client
-			.post('/:id/data')
+			.post(url)
 			.then(get('/:id')
 				.then((data) => {data.result.id.should.have.same.id({id: {toString: function() { return data.result.id }}})})
-				.then((data) => {data.result.roles.should.contain({"role":"admin"})})
 			)
 			.then((data) => {
 				data.code.should.equal(200);
 			});
 		});
+
+		it('should be able to post data to a member of a group i am admin of', function() {
+			return client
+			.post(url)
+			.then(get('/:id')
+				.then((data) => {data.result.roles.should.contain({"role":"admin"})})
+			)
+		});
+
+		it('should not be able to post data to a member outside my control', function() {
+			return client
+			.post(url)
+			.then(get('/:id')
+				.then((data) => {
+					expect(data.result.roles.group).to.not.equal(data.result.roles.group)
+				}
+					//my group
+					//not equal
+					//401
+
+				).then(() => {
+					data.code.should.equal(200);
+				})
+			)
+
+		});
+		
 	});
 
 	after(() => {
