@@ -125,26 +125,26 @@ describe('api', function () {
 	});
 
 
+	//unit tests of user
 	describe('/:id/data', function () {
-		it('should be able to GET the data object of a specific user with a served ID', function() {
+		it('should be able to get data from user', function() {
 			return client
 			.get('/:id/data')
-			.then(getData)
 			.then((data) => {
-				data.code.should.equal(401);
-				should.not.exist(data.result);
-			});
-			
+				expect(data).to.be(Object);
+				should.exist(data.result);
+
+			})
 		});
 
-		it('Should be able to POST the data object of a specific user with a served ID', function() {
+		//only post user data if the person trying to post is the user.
+		//only post user data if the person trying to post is admin of a group with the user in it.
+		it('should be able to post data if user is self or admin for group that self belongs to', function() {
 			return client
 			.post('/:id/data')
-			.then(getResult)
-			.then((data) => {
-				should.exist(data);
-			});
+
 		});
+		// -----------------------------------------------------------
 	});
 
 	after(() => {
