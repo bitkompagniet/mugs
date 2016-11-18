@@ -34,9 +34,9 @@ module.exports = function (uri) {
 
 	store.getData = (id, data) => models.users.get(id, data);
 	store.postData = (id, data) => models.users.post(id, data);
-
-	store.addRole = (id, role) => models.users.addRole(id, role);
-	store.removeRole = (id, role) => models.users.removeRole(id, role);
+	
+	store.addRole = (id, role, group) => models.users.addRole(id, role, group);
+	store.removeRole = (id, role, group) => models.users.removeRole(id, role, group);
 	store.reset = () => resetDB(store);
 	store.modify = user => models.users.modify(user, models);
 	store.confirm = (email, confirmationToken) => models.users.confirmRegistration(email, confirmationToken);
