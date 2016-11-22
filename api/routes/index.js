@@ -11,7 +11,7 @@ module.exports = function createRouter(store) {
 
 	router.get('/:id', (req, res) =>
 		store.get(req.params.id)
-		.then(result => res.success(result))
+		.then(res.success)
 		.catch(err => res.failure(err))
 	);
 
