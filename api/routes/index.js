@@ -13,47 +13,5 @@ module.exports = function createRouter(store, secret) {
 	router.get('/verify/:token', verify(store, secret));
 	router.get('/me', requireAuthentication(), me(store, secret));
 
-	// router.post('/register');
-	// router.get('/register/:token');
-
-	// router.post('/recover/:email');
-	// router.get('/recover/:token');
-	// router.get('/');
-	// router.get('/:id');
-	// router.post('/');
-	// router.put('/');
-	// router.delete('/:id');
-
-	// router.get('/:id', (req, res) =>
-	// 	store.get(req.params.id)
-	// 	.then(result => res.success(result))
-	// 	.catch(err => res.failure(err))
-	// );
-
-	// router.post('/', (req, res) =>
-	// 	store.create({ name: 'nikolaj', password: 'yo' })
-	// 	.then(result => res.success(result))
-	// 	.catch(err => res.failure(err))
-	// );
-
-	// router.delete('/users', (req, res) =>
-	// 	store.reset()
-	// 	.then(result => res.success(result))
-	// 	.catch(result => res.failure(result))
-	// );
-
-	// router.delete('/:id', (req, res) =>
-	// 	store.delete(req.params.id)
-	// 	.then(result => res.success(result))
-	// 	.catch(result => res.failure(result))
-	// );
-
-	// router.put('/', (req, res) =>
-	// 	store.modify(req.body)
-	// 	.then(result => res.success(result))
-	// 	.catch(result => res.failure(result))
-	// );
-
-
 	return router;
 };
