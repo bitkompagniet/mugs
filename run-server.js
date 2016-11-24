@@ -13,5 +13,7 @@ const smtp = required('smtp');
 const db = required('db');
 const secret = required('secret');
 
+const config = { smtp, db, secret };
+
 const store = createStore(db);
-server(api(store, { secret }));
+server(api(store, config));
