@@ -87,23 +87,26 @@ module.exports = function (db) {
 			.catch(() => Promise.reject('Wrong e-mail or password'));
 	};
 
-	userSchema.statics.modify = function(body) {
+	userSchema.statics.insert = async function(body) {
+		const existing = await this.find({ email: body.email });
+		if (existing.length > 0) throw new Error('E-mail already in use.');
+		return (await this.create(body)).toJSON();
+	};
+
+	userSchema.statics.modify = async function(body) {
 		const ignoreFields = ['_id', 'roles', 'password', 'confirmed', 'confirmationToken', 'resetPasswordToken', 'groups'];
 
-		return this.findById(body._id)
-			.then((model) => {
-				if (!model) throw new Error('id in model does not match any existing entity.');
+		const model = await this.findById(body._id);
+		if (!model) throw new Error('id in payload does not match any existing entity.');
 
-				const cleanBody = _.omit(body, ignoreFields);
-				_.merge(model, cleanBody);
+		const cleanBody = _.omit(body, ignoreFields);
+		_.merge(model, cleanBody);
 
-				const err = model.validateSync();
-				if (err) throw new Error(err);
+		const err = model.validateSync();
+		if (err) throw new Error(err);
 
-				return model
-					.save()
-					.then(user => user.toJSON());
-			});
+		const result = await model.save();
+		return result.toJSON();
 	};
 
 	userSchema.statics.addRole = function (_id, role, group) {

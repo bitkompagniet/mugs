@@ -10,7 +10,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "db=localhost:27017 rumor=trace secret=sssshh nodemon run-server.js",
+    "start": "db=localhost:27017/mugs-dev rumor=trace secret=sssshh nodemon --harmony-async-await run-server.js",
     "test": "/test/"
   },
   "repository": {

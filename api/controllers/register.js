@@ -1,8 +1,10 @@
 const rumor = require('rumor')();
+const _ = require('lodash');
 
 module.exports = function(store) {
 	return function(req, res) {
-		return store.create(req.body)
-			.then(res.success);
+		return store.create(_.pick(req.body, ['email', 'fullname', 'password', 'data']))
+			.then(res.success)
+			.catch(res.failure);
 	};
 };

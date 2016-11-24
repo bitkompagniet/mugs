@@ -9,7 +9,6 @@ module.exports = function createRouter(store, secret) {
 	const router = express.Router();
 
 	router.post('/register', register(store));
-
 	router.post('/login', login(store, secret));
 	router.get('/verify/:token', verify(store, secret));
 	router.get('/me', requireAuthentication(), me(store, secret));

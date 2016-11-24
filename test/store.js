@@ -31,7 +31,7 @@ describe('store', function () {
 				.then(rumor.debug)
 				.then((res) => {
 					should.exist(res);
-					res.should.contain.all.keys('_id', 'email', 'fullname', 'confirmed', 'created', 'groups', 'id', 'roles', 'updated');
+					res.should.contain.all.keys('_id', 'email', 'fullname', 'confirmed', 'created', 'id', 'roles', 'updated');
 				});
 		});
 	});
@@ -116,10 +116,16 @@ describe('store', function () {
 					return user._id;
 				})
 				.then(_id =>
-					store.addRole(_id, 'user-manager').then(() => store.get(_id))
+					store.addRole(_id, 'admin', 'admins').then(() => store.get(_id))
 				)
-				.should.eventually.have.property('roles').that.is.not.empty
-				.then(roles => roles[0].should.equal('user-manager'));
+				.then(user => {
+					const roles = user.roles;
+					roles.should.be.an('array');
+					roles.should.have.length(1);
+					roles[0].should.be.an('object');
+					const role = roles[0];
+					role.should.contain.all.keys('role', 'group');
+				});
 		});
 	});
 
@@ -127,8 +133,8 @@ describe('store', function () {
 		it('should be able to remove the "user-manager" role from an existing user', function() {
 			return store.reset()
 				.then(() => createUser())
-				.then(user => store.addRole(user._id, 'user-manager').then(() => store.get(user._id)))
-				.then(user => store.removeRole(user._id, 'user-manager').then(() => store.get(user._id)))
+				.then(user => store.addRole(user._id, 'admin', 'admins').then(() => store.get(user._id)))
+				.then(user => store.removeRole(user._id, 'admin', 'admins').then(() => store.get(user._id)))
 				.should.eventually.have.property('roles').that.is.empty;
 		});
 	});
