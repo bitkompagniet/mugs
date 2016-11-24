@@ -37,6 +37,7 @@ module.exports = function (uri) {
 	store.delete = id => models.users.delete(id);
 	store.get = id => models.users.get(id, models);
 	store.getByEmail = id => models.users.getByEmail(id, models);
+	store.getRaw = id => models.users.getRaw(id);
 	store.addRole = (id, role, group) => models.users.addRole(id, role, group);
 	store.removeRole = (id, role, group) => models.users.removeRole(id, role, group);
 	store.reset = () => resetDB(store);
