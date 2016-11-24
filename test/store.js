@@ -3,16 +3,16 @@
 
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
-const store = require('../store')('localhost:27017');
-const rumor = require('rumor')('fuchsia');
+const store = require('../store')('localhost:27017/mugs-unit-store');
+const rumor = require('rumor')('test:store');
 
 const should = chai.should(); // eslint-disable-line
 
 chai.use(chaiAsPromised);
 
 describe('store', function () {
-	before(() => store.reset());
 	this.timeout(20000);
+	before(() => store.reset());
 
 	const testUsers = [
 		{ email: 'bob@bitkompagniet.dk', fullname: 'Bob Doe', password: '123' },
@@ -31,10 +31,8 @@ describe('store', function () {
 				.then(rumor.debug)
 				.then((res) => {
 					should.exist(res);
-					res.should.contain.all.keys('_id', 'email', 'fullname', 'password');
-					res.password.should.not.equal('hattefar');
-				})
-				.catch(rumor.error);
+					res.should.contain.all.keys('_id', 'email', 'fullname', 'confirmed', 'created', 'groups', 'id', 'roles', 'updated');
+				});
 		});
 	});
 
@@ -135,7 +133,7 @@ describe('store', function () {
 		});
 	});
 
-	describe('.confirm', function() {
+	xdescribe('.confirm', function() {
 		it('should set the date correctly after confirmation', function() {
 			return store.reset()
 				.then(() => createUser())

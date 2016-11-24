@@ -1,23 +1,23 @@
 const express = require('express');
 const respondo = require('respondo');
+const permissionMatrix = require('./middleware/permissionMatrix');
 const routes = require('./routes');
 const bodyParser = require('body-parser');
 
-module.exports = function (store) {
+module.exports = function (store, { secret }) {
 	const app = express();
 
-	app.use(respondo.responders());
 	app.use(bodyParser.json());
-	app.use(routes(store));
+	app.use(respondo.responders());
+	app.use(respondo.authorizationIdentity(secret));
+	app.use(permissionMatrix());
 
-
+	app.use(routes(store, secret));
 	app.use((err, req, res, next) => // eslint-disable-line no-unused-vars
 		res.failure(err, 500)
 	);
 
-	app.use((req, res) =>
-		res.failure('Not a valid path', 404)
-	);
+	app.use(respondo.errors());
 
 	return app;
 };

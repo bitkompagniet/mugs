@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 
 const api = require('./api');
-const debug = require('debug')('http');
 const createStore = require('./store');
 const server = require('./server');
 
-const { db, smtp } = process.env;
+function required(name) {
+	if (process.env[name]) return process.env[name];
+	throw new Error(`'${name}' env var required`);
+}
 
+const smtp = required('smtp');
+const db = required('db');
+const secret = required('secret');
 
-if (!db) throw new Error('Please supply a db env variable.');
-if (!smtp) throw new Error('Please supply a smtp env variable.');
-
-debug('Server started.');
 const store = createStore(db);
-server(api(store));
+server(api(store, { secret }));

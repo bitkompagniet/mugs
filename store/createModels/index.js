@@ -28,7 +28,7 @@ function single(result) {
 	throw new Error('Single element required, but object had unexpected length or was not an array.');
 }
 
-module.exports = function () {
+module.exports = function (db) {
 	const userSchema = new Schema({
 		// Required
 		email: { type: String, required: true, index: { unique: true }, validate: value => validator.isEmail(value) },
@@ -39,8 +39,10 @@ module.exports = function () {
 		confirmationToken: { type: Schema.Types.ObjectId, default: oid },
 		confirmed: { type: Date, default: null },
 		resetPasswordToken: { type: Schema.Types.ObjectId, default: null },
-		roles: [String],
-		groups: [String],
+		roles: [{
+			role: String,
+			group: String,
+		}],
 		data: {},
 	}, {
 		toJSON: {
@@ -79,7 +81,10 @@ module.exports = function () {
 
 	userSchema.statics.auth = function(email, password) {
 		const hash = passwordHash(password);
-		return this.find({ email, password: hash }).then(singleOrNull).then(res => res.toJSON());
+		return this.find({ email, password: hash })
+			.then(single)
+			.then(res => res.toJSON())
+			.catch(() => Promise.reject('Wrong e-mail or password'));
 	};
 
 	userSchema.statics.modify = function(body) {
@@ -101,27 +106,15 @@ module.exports = function () {
 			});
 	};
 
-	userSchema.statics.addRole = function (_id, role) {
+	userSchema.statics.addRole = function (_id, role, group) {
 		return this.findOneAndUpdate({ _id }, {
-			$addToSet: { roles: role },
+			$addToSet: { roles: { role, group } },
 		});
 	};
 
-	userSchema.statics.removeRole = function (_id, role) {
+	userSchema.statics.removeRole = function (_id, role, group) {
 		return this.findOneAndUpdate({ _id }, {
-			$pull: { roles: role },
-		});
-	};
-
-	userSchema.statics.addToGroup = function (_id, group) {
-		return this.findOneAndUpdate({ _id }, {
-			$addToSet: { groups: group },
-		});
-	};
-
-	userSchema.statics.removeFromGroup = function(_id, group) {
-		return this.findOneAndUpdate({ _id }, {
-			$pull: { groups: group },
+			$pull: { roles: { role, group } },
 		});
 	};
 
@@ -139,6 +132,7 @@ module.exports = function () {
 	userSchema.statics.confirmRegistration = function(email, confirmationToken) {
 		return this.getByEmail(email)
 			.then((user) => {
+				rumor.info(user);
 				if (!user.confirmationToken.equals(confirmationToken)) throw new Error('Confirmation tokens did not match.');
 				return user;
 			})
@@ -169,6 +163,6 @@ module.exports = function () {
 	};
 
 	return {
-		users: mongoose.model('User', userSchema),
+		users: db.model('User', userSchema),
 	};
 };

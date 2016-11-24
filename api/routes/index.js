@@ -17,10 +17,10 @@ module.exports = function createRouter(store, config) {
 
 	router.post('/', (req, res) =>
 		store.create(req.body)
-		.then((result) => {
-			store.get(result.id).then(result => mail.confirmation(result, process.env.smtp, '/email_templates/confirmation.hbs')
+		.then((createdUser) => {
+			store.get(createdUser.id).then(result => mail.confirmation(result, config)
 				.then(res.success).catch(res.failure))
-				.catch(res.failure)
+				.catch(res.failure);
 		})
 		.catch(err => res.failure(err))
 	);
@@ -53,12 +53,12 @@ module.exports = function createRouter(store, config) {
 
 	});
 
-	router.get('/recover/:email') {
-		store.get()
-	}
+	// router.get('/recover/:email') {
+	// 	store.get()
+	// }
 
-	router.post('/recover'){
+	// router.post('/recover'){
 		
-	}
+	// }
 	return router;
 };

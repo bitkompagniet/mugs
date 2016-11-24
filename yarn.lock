@@ -78,6 +78,12 @@ async@2.1.2:
   dependencies:
     lodash "^4.14.0"
 
+axios:
+  version "0.15.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.15.2.tgz#496f50980b2ce1ad2e195af93c2d03b4d035e90d"
+  dependencies:
+    follow-redirects "0.0.7"
+
 babel-code-frame@^6.16.0:
   version "6.16.0"
   resolved "https://registry.yarnpkg.com/babel-code-frame/-/babel-code-frame-6.16.0.tgz#f90e60da0862909d3ce098733b5d3987c97cb8de"
@@ -620,6 +626,13 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
+follow-redirects@0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-0.0.7.tgz#34b90bab2a911aa347571da90f22bd36ecd8a919"
+  dependencies:
+    debug "^2.2.0"
+    stream-consume "^0.1.0"
+
 forwarded@~0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/forwarded/-/forwarded-0.1.0.tgz#19ef9874c4ae1c297bcf078fde63a09b66a84363"
@@ -877,7 +890,7 @@ jsonpointer@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/jsonpointer/-/jsonpointer-4.0.0.tgz#6661e161d2fc445f19f98430231343722e1fcbd5"
 
-jsonwebtoken:
+jsonwebtoken, jsonwebtoken@^7.1.9:
   version "7.1.9"
   resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-7.1.9.tgz#847804e5258bec5a9499a8dc4a5e7a3bae08d58a"
   dependencies:
@@ -1051,13 +1064,13 @@ mocha@^3.1.2:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
+moment, moment@2.x.x:
+  version "2.16.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.16.0.tgz#f38f2c97c9889b0ee18fc6cc392e1e443ad2da8e"
+
 moment@^2.15.2:
   version "2.15.2"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.15.2.tgz#1bfdedf6a6e345f322fe956d5df5bd08a8ce84dc"
-
-moment@2.x.x:
-  version "2.16.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.16.0.tgz#f38f2c97c9889b0ee18fc6cc392e1e443ad2da8e"
 
 mongodb-core@2.0.13:
   version "2.0.13"
@@ -1325,12 +1338,14 @@ resolve@^1.1.6:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
 
-respondo:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/respondo/-/respondo-0.2.0.tgz#912cabe1d2522ca79d4f19df0b4243924e1d233d"
+respondo@0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/respondo/-/respondo-0.3.2.tgz#f38b1b7cd347884cba99bba7dc5a7e2805b357bb"
   dependencies:
     js2xmlparser "^2.0.2"
+    jsonwebtoken "^7.1.9"
     lodash "^4.16.1"
+    rumor "^1.0.0"
 
 restore-cursor@^1.0.1:
   version "1.0.1"
@@ -1429,6 +1444,10 @@ sprintf-js@~1.0.2:
 "statuses@>= 1.3.0 < 2", statuses@~1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.3.0.tgz#8e55758cb20e7682c1f4fce8dcab30bf01d1e07a"
+
+stream-consume@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/stream-consume/-/stream-consume-0.1.0.tgz#a41ead1a6d6081ceb79f65b061901b6d8f3d1d0f"
 
 string_decoder@~0.10.x:
   version "0.10.31"

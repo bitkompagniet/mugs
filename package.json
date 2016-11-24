@@ -10,7 +10,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "db=localhost:27017 smtp=smtps://system@bitkompagniet.dk:hattefar@smtp.gmail.com:465 rumor=trace nodemon run-server.js",
+    "start": "db=localhost:27017 smtp=smtps://system@bitkompagniet.dk:hattefar@smtp.gmail.com:465 secret=sssshh rumor=trace nodemon run-server.js",
     "test": "/test/"
   },
   "repository": {
@@ -25,19 +25,20 @@
   "homepage": "https://github.com/bitkompagniet/mugs#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
-    "debug": "^2.2.0",
     "express": "^4.14.0",
     "handlebars": "^4.0.6",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.16.6",
+    "moment": "^2.16.0",
     "mongoose": "^4.6.5",
     "nodemailer": "^2.6.4",
     "path": "^0.12.7",
-    "respondo": "^0.2.0",
+    "respondo": "0.3.2",
     "rumor": "^1.0.0",
     "validator": "^6.1.0"
   },
   "devDependencies": {
+    "axios": "^0.15.2",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
     "eslint": "^3.9.1",
