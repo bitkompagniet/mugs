@@ -6,9 +6,10 @@ const bodyParser = require('body-parser');
 module.exports = function (store) {
 	const app = express();
 
-	app.use(bodyParser.json());
 	app.use(respondo.responders());
+	app.use(bodyParser.json());
 	app.use(routes(store));
+
 
 	app.use((err, req, res, next) => // eslint-disable-line no-unused-vars
 		res.failure(err, 500)

@@ -1,7 +1,7 @@
 const express = require('express');
 const mail = require('../../lib/mail');
 
-module.exports = function createRouter(store) {
+module.exports = function createRouter(store, config) {
 	const router = express.Router();
 	router.get('/', (req, res) =>
 		store.list()
@@ -17,7 +17,11 @@ module.exports = function createRouter(store) {
 
 	router.post('/', (req, res) =>
 		store.create(req.body)
-		.then(result => res.success(result))
+		.then((result) => {
+			store.get(result.id).then(result => mail.confirmation(result, process.env.smtp, '/email_templates/confirmation.hbs')
+				.then(res.success).catch(res.failure))
+				.catch(res.failure)
+		})
 		.catch(err => res.failure(err))
 	);
 
@@ -45,13 +49,16 @@ module.exports = function createRouter(store) {
 		.catch(result => res.failure(result))
 	);
 
-	router.post('/mail/:id', (req, res) =>
-		store.get(req.params.id)
-			.then(result => mail(result, process.env.smtp, '/email_templates/confirmation.hbs')
-				.then(mailsucces => res.success(mailsucces))
-				.catch(mailfailure => res.reject(mailfailure)))
-			.catch(err => res.failure(err))
-	);
+	router.post('/register/', (req, res) => {
 
+	});
+
+	router.get('/recover/:email') {
+		store.get()
+	}
+
+	router.post('/recover'){
+		
+	}
 	return router;
 };
