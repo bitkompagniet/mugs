@@ -79,6 +79,10 @@ module.exports = function (db) {
 		return this.find({ resetPasswordToken }).then(single).then(res => res.toJSON());
 	};
 
+	userSchema.statics.getRaw = async function(id) {
+		return await this.findById(id);
+	};
+
 	userSchema.statics.auth = function(email, password) {
 		const hash = passwordHash(password);
 		return this.find({ email, password: hash })
