@@ -10,7 +10,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "db=localhost:27017 smtp=smtps://system@bitkompagniet.dk:hattefar@smtp.gmail.com:465 secret=sssshh rumor=trace nodemon run-server.js",
+    "start": "db=localhost:27017 smtp=smtps://system@bitkompagniet.dk:hattefar@smtp.gmail.com:465 secret=sssshh rumor=trace nodemon --harmony-async-await run-server.js",
     "test": "/test/"
   },
   "repository": {
