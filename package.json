@@ -9,8 +9,9 @@
   "directories": {
     "test": "test"
   },
+
   "scripts": {
-    "start": "db=localhost:27017 smtp=smtps://system@bitkompagniet.dk:hattefar@smtp.gmail.com:465 secret=sssshh rumor=trace nodemon --harmony-async-await run-server.js",
+    "start": "logoLink=http://www.free-logotypes.com/logos/png/Win_95.png appName=mugs confirmationLink=http://www.test.dk/ db=localhost:27017 smtp=smtps://system@bitkompagniet.dk:hattefar@smtp.gmail.com:465 secret=sssshh rumor=trace nodemon --harmony-async-await run-server.js",
     "test": "/test/"
   },
   "repository": {
