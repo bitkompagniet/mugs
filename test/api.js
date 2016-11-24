@@ -67,6 +67,7 @@ describe('api', function () {
 				.then((data) => {
 					data.code.should.equal(401);
 					should.exist(data.error);
+					console.log(data);
 					data.error.should.contain('Wrong');
 				});
 		});

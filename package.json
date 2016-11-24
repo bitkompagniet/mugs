@@ -30,7 +30,7 @@
     "lodash": "^4.16.6",
     "moment": "^2.16.0",
     "mongoose": "^4.6.5",
-    "respondo": "0.3.2",
+    "respondo": "^0.4.0",
     "rumor": "^1.0.0",
     "validator": "^6.1.0"
   },
