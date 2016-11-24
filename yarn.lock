@@ -2291,9 +2291,9 @@ resolve@^1.1.6:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
 
-respondo@0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/respondo/-/respondo-0.3.2.tgz#f38b1b7cd347884cba99bba7dc5a7e2805b357bb"
+respondo:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/respondo/-/respondo-0.4.0.tgz#ccb25e8c47e87dd310a968dea16798a4677005aa"
   dependencies:
     js2xmlparser "^2.0.2"
     jsonwebtoken "^7.1.9"

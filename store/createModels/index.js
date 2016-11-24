@@ -83,12 +83,16 @@ module.exports = function (db) {
 		return await this.findById(id);
 	};
 
-	userSchema.statics.auth = function(email, password) {
+	userSchema.statics.auth = async function(email, password) {
 		const hash = passwordHash(password);
-		return this.find({ email, password: hash })
-			.then(single)
-			.then(res => res.toJSON())
-			.catch(() => Promise.reject('Wrong e-mail or password'));
+
+		const users = await this.find({ email, password: hash });
+		if (users.length === 0) throw new Error('Wrong e-mail or password');
+
+		const user = users[0];
+		//if (!user.confirmed) throw new Error('The user was not confirmed.');
+
+		return user.toJSON();
 	};
 
 	userSchema.statics.insert = async function(body) {

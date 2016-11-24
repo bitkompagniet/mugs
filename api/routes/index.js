@@ -15,7 +15,7 @@ module.exports = function createRouter(store, config) {
 	router.get('/verify/:token', verify(store, config.secret));
 	router.get('/me', requireAuthentication(), me(store, config.secret));
 	router.delete('/', deleteAll());
-	router.get('recovery/:id', recovery(store)) 
+	router.get('recovery/:id', recovery(store));
 
 	return router;
 };

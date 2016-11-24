@@ -17,7 +17,7 @@ module.exports = function (store, config) {
 		res.failure(err, 500)
 	);
 
-	// app.use(respondo.errors());
+	app.use(respondo.errors(false));
 
 	return app;
 };
