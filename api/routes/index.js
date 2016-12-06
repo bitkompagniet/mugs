@@ -6,14 +6,16 @@ const verify = require('../controllers/verify');
 const me = require('../controllers/me');
 const deleteAll = require('../controllers/deleteAll');
 const recovery = require('../controllers/recovery');
+const confirmRegister = require('../controllers/confirm-register');
 
-module.exports = function createRouter(store, config) {
+module.exports = function createRouter(store) {
 	const router = express.Router();
 
-	router.post('/register', register(store, config));
-	router.post('/login', login(store, config.secret));
-	router.get('/verify/:token', verify(store, config.secret));
-	router.get('/me', requireAuthentication(), me(store, config.secret));
+	router.post('/register', register(store));
+	router.get('/register/:token', confirmRegister(store));
+	router.post('/login', login(store));
+	router.get('/verify/:token', verify());
+	router.get('/me', requireAuthentication(), me(store));
 	router.delete('/', deleteAll());
 	router.get('recovery/:id', recovery(store));
 

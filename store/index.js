@@ -26,7 +26,7 @@ module.exports = function (uri) {
 	store.removeRole = (id, role, group) => models.users.removeRole(id, role, group);
 	store.reset = () => resetDB(store);
 	store.modify = user => models.users.modify(user, models);
-	store.confirm = (email, confirmationToken) => models.users.confirmRegistration(email, confirmationToken);
+	store.confirmRegistration = confirmationToken => models.users.confirmRegistration(confirmationToken);
 	store.requestRecoveryToken = email => models.users.requestRecoveryToken(email, models);
 
 	return store;

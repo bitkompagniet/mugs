@@ -1,11 +1,11 @@
 const jsonwebtoken = require('jsonwebtoken');
 const tokenExpiry = require('../../lib/token-expiry');
 
-module.exports = function(store, secret) {
+module.exports = function(store) {
 	return function(req, res) {
 		store.login(req.body.email, req.body.password)
 			.then(user => ({
-				token: jsonwebtoken.sign(Object.assign(user, { exp: tokenExpiry() }), secret),
+				token: jsonwebtoken.sign(Object.assign(user, { exp: tokenExpiry() }), req.configuration('secret')),
 				user,
 			}))
 			.then(res.success)

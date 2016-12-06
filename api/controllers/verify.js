@@ -1,14 +1,14 @@
 const jsonwebtoken = require('jsonwebtoken');
 const tokenExpiry = require('../../lib/token-expiry');
 
-module.exports = function(store, secret) {
+module.exports = function() {
 	return function(req, res) {
 		const { token } = req.params;
 
 		try {
-			const user = jsonwebtoken.verify(token, secret);
+			const user = jsonwebtoken.verify(token, req.configuration('secret'));
 			user.exp = tokenExpiry();
-			const refresh = jsonwebtoken.sign(user, secret);
+			const refresh = jsonwebtoken.sign(user, req.configuration('secret'));
 
 			return res.success({
 				refresh,

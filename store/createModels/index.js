@@ -140,19 +140,19 @@ module.exports = function (db) {
 			.then(created => ({ _id: created._id, email: created.email, confirmationToken: created.confirmationToken }));
 	};
 
-	userSchema.statics.confirmRegistration = function(email, confirmationToken) {
-		return this.getByEmail(email)
-			.then((user) => {
-				rumor.info(user);
-				if (!user.confirmationToken.equals(confirmationToken)) throw new Error('Confirmation tokens did not match.');
-				return user;
-			})
-			.then(user => this.findOneAndUpdate({ _id: user._id }, {
+	userSchema.statics.confirmRegistration = async function(confirmationToken) {
+		const userWithToken = await this.findOne({ confirmationToken });
+
+		if (userWithToken) {
+			return await this.findOneAndUpdate({ _id: userWithToken._id }, {
 				$set: {
 					confirmationToken: null,
 					confirmed: new Date(),
 				},
-			}, { new: true }));
+			}, { new: true });
+		}
+
+		throw new Error('The user with the supplied confirmation token did not exist.');
 	};
 
 	userSchema.statics.requestRecoveryToken = function(email) {

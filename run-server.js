@@ -14,9 +14,10 @@ const db = required('db');
 const secret = required('secret');
 const logoLink = required('logoLink');
 const appName = required('appName');
-const confirmationLink = required('confirmationLink');
+const appUrl = required('appUrl');
+const redirectConfirmUrl = required('redirectConfirmUrl');
 
-const config = { smtp, db, secret, logoLink, appName, confirmationLink };
+const config = { smtp, db, secret, logoLink, appName, appUrl, redirectConfirmUrl };
 
 const store = createStore(db);
 server(api(store, config));
