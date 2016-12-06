@@ -40,6 +40,7 @@ module.exports = function (db) {
 		confirmed: { type: Date, default: null },
 		resetPasswordToken: { type: Schema.Types.ObjectId, default: null },
 		roles: [{
+			_id: false,
 			role: String,
 			group: String,
 		}],
