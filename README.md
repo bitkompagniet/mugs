@@ -1,3 +1,21 @@
+# ENV vars
+
+## Mandatory
+
+
+- `appName`: the application name, shown in e-mail.
+- `appUrl`: the root URL to the application, used to prefix the links sent in e-mails.
+- `db`: mongo URI for the user database.
+- `smtp`: smtps string for sending e-mails.
+- `secret`: secret used to issue and verify JWT tokens.
+- `redirectConfirmUrl`: URL used for confirmation redirection. Will receive `success` query param, and `message` on failure.
+
+## Optional
+
+- `logoLink`: URL to logo displayed in template.
+- `rumor`: trace level.
+
+
 # User model
 
 ```javascript
