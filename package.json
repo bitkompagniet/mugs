@@ -1,6 +1,6 @@
 {
   "name": "mugs",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Module for handling users",
   "main": "module.js",
   "bin": {
