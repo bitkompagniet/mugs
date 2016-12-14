@@ -1,23 +1,33 @@
 const express = require('express');
-const requireAuthentication = require('../middleware/requireAuthentication');
 const register = require('../controllers/register');
 const login = require('../controllers/login');
 const verify = require('../controllers/verify');
 const me = require('../controllers/me');
-const deleteAll = require('../controllers/deleteAll');
-const recovery = require('../controllers/recovery');
+const list = require('../controllers/list');
 const confirmRegister = require('../controllers/confirm-register');
+const get = require('../controllers/get');
+const create = require('../controllers/create');
 
 module.exports = function createRouter(store) {
 	const router = express.Router();
 
+	// CRUD
+	router.get('/', list(store));
+	router.get('/:id', get(store));
+	router.post('/', create(store));
+
+	// Me
+	router.get('/me', me(store));
+
+	// Registration
 	router.post('/register', register(store));
 	router.get('/register/:token', confirmRegister(store));
+
+	// Login
 	router.post('/login', login(store));
+
+	// Password recovery
 	router.get('/verify/:token', verify());
-	router.get('/me', requireAuthentication(), me(store));
-	router.delete('/', deleteAll());
-	router.get('recovery/:id', recovery(store));
 
 	return router;
 };

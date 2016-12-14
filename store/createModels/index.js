@@ -42,7 +42,7 @@ module.exports = function (db) {
 		roles: [{
 			_id: false,
 			role: String,
-			group: String,
+			scope: String,
 		}],
 		data: {},
 	}, {
@@ -91,8 +91,6 @@ module.exports = function (db) {
 		if (users.length === 0) throw new Error('Wrong e-mail or password');
 
 		const user = users[0];
-		//if (!user.confirmed) throw new Error('The user was not confirmed.');
-
 		return user.toJSON();
 	};
 
@@ -103,7 +101,7 @@ module.exports = function (db) {
 	};
 
 	userSchema.statics.modify = async function(body) {
-		const ignoreFields = ['_id', 'roles', 'password', 'confirmed', 'confirmationToken', 'resetPasswordToken', 'groups'];
+		const ignoreFields = ['_id', 'roles', 'password', 'confirmed', 'confirmationToken', 'resetPasswordToken'];
 
 		const model = await this.findById(body._id);
 		if (!model) throw new Error('id in payload does not match any existing entity.');
@@ -118,15 +116,15 @@ module.exports = function (db) {
 		return result.toJSON();
 	};
 
-	userSchema.statics.addRole = function (_id, role, group) {
-		return this.findOneAndUpdate({ _id }, {
-			$addToSet: { roles: { role, group } },
+	userSchema.statics.addRole = async function (_id, role, scope) {
+		return await this.findOneAndUpdate({ _id }, {
+			$addToSet: { roles: { role, scope } },
 		});
 	};
 
-	userSchema.statics.removeRole = function (_id, role, group) {
+	userSchema.statics.removeRole = function (_id, role, scope) {
 		return this.findOneAndUpdate({ _id }, {
-			$pull: { roles: { role, group } },
+			$pull: { roles: { role, scope } },
 		});
 	};
 

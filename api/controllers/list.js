@@ -1,15 +1,21 @@
+const _ = require('lodash');
+const requireAuthentication = require('../middleware/requireAuthentication');
+
 module.exports = function(store) {
-	return function(req, res) {
-		const roles = req.identity.user.roles;
-		const canViewGroups = roles
-			.map(role => role.split(':'))
-			.filter(([subrole, group]) => subrole.includes(['admin', 'member']) && Boolean(group))
-			.map(([subrole, group]) => group); // eslint-disable-line no-unused-vars
+	return [
+		requireAuthentication(),
 
-		if (canViewGroups.length === 0) return res.failure('don\'t have access to view any groups');
+		async function(req, res, next) {
+			try {
+				const query = _.merge({}, req.query, {
+					roles: req.identity.roles.toArray(),
+				});
 
-		return store.list({ groups: canViewGroups })
-			.then(res.success)
-			.catch(res.failure);
-	};
+				const result = await store.list(query);
+				return res.success(result);
+			} catch (e) {
+				return next(e);
+			}
+		},
+	];
 };
