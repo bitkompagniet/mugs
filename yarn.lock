@@ -1631,6 +1631,10 @@ lodash@^4.0.0, lodash@^4.14.0, lodash@^4.16.1, lodash@^4.16.6, lodash@^4.3.0:
   version "4.16.6"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.16.6.tgz#d22c9ac660288f3843e16ba7d2b5d06cca27d777"
 
+lodash@^4.17.2:
+  version "4.17.2"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.2.tgz#34a3055babe04ce42467b607d700072c7ff6bf42"
+
 longest@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/longest/-/longest-1.0.1.tgz#30a0b2da38f73770e8294a0d22e6625ed77d0097"
@@ -1653,6 +1657,14 @@ map-stream@~0.1.0:
 media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
+
+mercutio@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/mercutio/-/mercutio-0.2.2.tgz#95f4721925822326704574e8286411fee953426e"
+  dependencies:
+    jsonwebtoken "^7.1.9"
+    lodash "^4.17.2"
+    rumor "^1.0.0"
 
 merge-descriptors@1.0.1:
   version "1.0.1"
