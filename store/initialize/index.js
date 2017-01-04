@@ -4,42 +4,27 @@ const users = [
 	{
 		email: 'admin@mugs.info',
 		password: 'admin',
-		fullname: 'Admin at mugs',
+		firstname: 'Admin',
+		lastname: 'Adminson',
 		roles: [
 			{ role: '*', scope: '/' },
 		],
 	},
-	{
-		email: 'ladmin@mugs.info',
-		password: 'admin',
-		fullname: 'Lesser admin at mugs',
-		roles: [
-			{ role: 'admin', scope: 'sites' },
-		],
-	},
-	{
-		email: 'member@mugs.info',
-		password: 'member',
-		fullname: 'Lesser admin at mugs',
-		roles: [
-			{ role: 'member', scope: 'sites/27' },
-			{ role: 'member', scope: 'users/27' },
-		],
-	},
 ];
 
-async function ensureUser(store, { email, password, fullname, roles }) {
+async function ensureUser(store, { email, password, firstname, lastname, roles }) {
 	const existing = await store.getByEmail(email);
 
 	if (existing) {
-		rumor.debug(`${email} already existed in the users.`);
+		rumor.debug(`${email} was already a user.`);
 		return false;
 	}
 
 	const result = await store.create({
 		email,
 		password,
-		fullname,
+		firstname,
+		lastname,
 	});
 
 	const id = result._id;

@@ -24,7 +24,8 @@ module.exports = function (db) {
 	const userSchema = new Schema({
 		// Required
 		email: { type: String, required: true, index: { unique: true }, validate: value => validator.isEmail(value) },
-		fullname: { type: String, required: true },
+		firstname: { type: String, required: false },
+		lastname: { type: String, required: false },
 		password: { type: String, required: true, set: passwordHash },
 		created: { type: Date, default: Date.now },
 		updated: { type: Date, default: null },
@@ -52,6 +53,9 @@ module.exports = function (db) {
 
 	userSchema.index({ email: 1, password: 1 });
 
+	userSchema.virtual('fullname').get(function() {
+		return [this.firstname, this.lastname].filter(i => !!i).join(' ');
+	});
 	userSchema.statics.list = list;
 	userSchema.statics.get = get;
 	userSchema.statics.getByEmail = getByEmail;
