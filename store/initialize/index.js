@@ -20,7 +20,7 @@ async function ensureUser(store, { email, password, firstname, lastname, roles }
 		return false;
 	}
 
-	const result = await store.create({
+	const result = await store.insert({
 		email,
 		password,
 		firstname,

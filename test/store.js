@@ -20,10 +20,10 @@ describe('store', function () {
 		{ email: 'john@bitkompagniet.dk', fullname: 'John Doe', password: 'somepass' },
 	];
 
-	const createUser = () => store.create(testUsers[0]);
-	const createAll = () => Promise.all(testUsers.map(user => store.create(user)));
+	const createUser = () => store.insert(testUsers[0]);
+	const createAll = () => Promise.all(testUsers.map(user => store.insert(user)));
 
-	describe('.create', function () {
+	describe('.insert', function () {
 		it('should be able to create and read back a user', function() {
 			return store.reset()
 				.then(() => createUser())

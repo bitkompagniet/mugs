@@ -16,7 +16,7 @@ module.exports = function (uri) {
 
 	const models = createModels(store.connection);
 
-	store.create = data => models.users.insert(data);
+	store.insert = data => models.users.insert(data);
 	store.login = (email, password) => models.users.auth(email, password);
 	store.list = query => models.users.list(query);
 	store.delete = id => models.users.delete(id);
