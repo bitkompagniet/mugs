@@ -29,7 +29,7 @@ module.exports = function (uri) {
 	store.modify = user => models.users.modify(user, models);
 	store.confirmRegistration = confirmationToken => models.users.confirmRegistration(confirmationToken);
 	store.requestRecoveryToken = email => models.users.requestRecoveryToken(email, models);
-
+	store.insertUserData = (id, data) => models.users.insertUserData(id, data, models)
 	initialize(store);
 
 	return store;
