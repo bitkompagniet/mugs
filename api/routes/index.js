@@ -7,6 +7,8 @@ const list = require('../controllers/list');
 const confirmRegister = require('../controllers/confirm-register');
 const get = require('../controllers/get');
 const create = require('../controllers/create');
+const insertUserData = require('../controllers/insertUserData');
+
 
 module.exports = function createRouter(store) {
 	const router = express.Router();
@@ -15,6 +17,7 @@ module.exports = function createRouter(store) {
 	router.get('/', list(store));
 	router.get('/:id', get(store));
 	router.post('/', create(store));
+	router.post('/:id/data', insertUserData(store));
 
 	// Me
 	router.get('/me', me(store));
