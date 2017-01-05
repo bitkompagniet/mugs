@@ -5,9 +5,9 @@ module.exports = function(store) {
 		requireAuthentication(),
 
 		async function(req, res, next) {
-			if (!req.identity.is('admin@users')) {
-				return res.failure('You don\'t have permission to create a user.');
-			}
+			// if (!req.identity.is('admin@users')) {
+			// 	return res.failure('You don\'t have permission to create a user.');
+			// }
 
 			try {
 				const user = await store.create(req.body);
