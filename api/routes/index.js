@@ -32,5 +32,6 @@ module.exports = function createRouter(store) {
 	// Password recovery
 	router.get('/verify/:token', verify());
 
+
 	return router;
 };
