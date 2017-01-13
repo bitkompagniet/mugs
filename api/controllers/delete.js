@@ -6,8 +6,8 @@ module.exports = function (store) {
 
 		const err = await store.delete(req.params.id);
 		if (!err) {
-			return res.succes({});
+			return await res.success();
 		}
-		return res.err(err);
+		return await res.failure(err);
 	};
 };

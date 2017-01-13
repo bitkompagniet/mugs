@@ -16,6 +16,7 @@ const getByResetToken = require('../query/getByResetToken');
 const getByConfirmationToken = require('../query/getByConfirmationToken');
 const getByEmail = require('../query/getByEmail');
 const get = require('../query/get');
+const deleteUser = require('../query/delete');
 
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Types.ObjectId;
@@ -71,6 +72,7 @@ module.exports = function (db) {
 	userSchema.statics.register = register;
 	userSchema.statics.confirmRegistration = confirmRegistration;
 	userSchema.statics.requestRecoveryToken = requestRecoveryToken;
+	userSchema.statics.delete = deleteUser;
 
 	return {
 		users: db.model('User', userSchema),
