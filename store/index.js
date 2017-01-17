@@ -28,7 +28,10 @@ module.exports = function (uri) {
 	store.reset = () => resetDB(store);
 	store.modify = (id, body) => models.users.modify(id, body);
 	store.confirmRegistration = confirmationToken => models.users.confirmRegistration(confirmationToken);
-	store.requestRecoveryToken = email => models.users.requestRecoveryToken(email);
+
+	store.requestRecoveryToken = email => models.users.requestRecoveryToken(email, models);
+	store.insertUserData = (id, data) => models.users.insertUserData(id, data, models);
+	store.getUserData = id => models.users.getUserData(id);
 
 	initialize(store);
 

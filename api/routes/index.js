@@ -8,6 +8,8 @@ const confirmRegister = require('../controllers/confirm-register');
 const get = require('../controllers/get');
 const create = require('../controllers/create');
 const modify = require('../controllers/modify');
+const insertUserData = require('../controllers/insertUserData');
+const getUserData = require('../controllers/getUserData');
 
 module.exports = function createRouter(store, config) {
 	const router = express.Router();
@@ -24,6 +26,10 @@ module.exports = function createRouter(store, config) {
 
 	// Password recovery
 	router.get('/verify/:token', verify());
+
+	// User data
+	router.get('/:id/data', getUserData(store));
+	router.post('/:id/data', insertUserData(store));
 
 	// CRUD
 	router.get('/', list(store));
