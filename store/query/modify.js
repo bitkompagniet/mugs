@@ -1,5 +1,7 @@
+const _ = require('lodash');
+
 module.exports = async function(body) {
-	const ignoreFields = ['_id', 'roles', 'password', 'confirmed', 'confirmationToken', 'resetPasswordToken'];
+	const ignoreFields = ['_id', 'roles', 'password', 'confirmed', 'confirmationToken', 'resetPasswordToken', 'data'];
 
 	const model = await this.findById(body._id);
 	if (!model) throw new Error('id in payload does not match any existing entity.');
