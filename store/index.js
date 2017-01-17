@@ -20,17 +20,19 @@ module.exports = function (uri) {
 	store.login = (email, password) => models.users.auth(email, password);
 	store.list = query => models.users.list(query);
 	store.delete = id => models.users.delete(id);
-	store.get = id => models.users.get(id, models);
-	store.getByEmail = email => models.users.getByEmail(email, models);
+	store.get = id => models.users.get(id);
+	store.getByEmail = email => models.users.getByEmail(email);
 	store.getRaw = id => models.users.getRaw(id);
 	store.addRole = (id, role, group) => models.users.addRole(id, role, group);
 	store.removeRole = (id, role, group) => models.users.removeRole(id, role, group);
 	store.reset = () => resetDB(store);
-	store.modify = user => models.users.modify(user, models);
+	store.modify = (id, body) => models.users.modify(id, body);
 	store.confirmRegistration = confirmationToken => models.users.confirmRegistration(confirmationToken);
+
 	store.requestRecoveryToken = email => models.users.requestRecoveryToken(email, models);
 	store.insertUserData = (id, data) => models.users.insertUserData(id, data, models);
 	store.getUserData = id => models.users.getUserData(id);
+
 	initialize(store);
 
 	return store;

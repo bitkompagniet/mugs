@@ -7,20 +7,15 @@ const list = require('../controllers/list');
 const confirmRegister = require('../controllers/confirm-register');
 const get = require('../controllers/get');
 const create = require('../controllers/create');
+const modify = require('../controllers/modify');
 const insertUserData = require('../controllers/insertUserData');
 const getUserData = require('../controllers/getUserData');
 
-
-module.exports = function createRouter(store) {
+module.exports = function createRouter(store, config) {
 	const router = express.Router();
 
-	// CRUD
-	router.get('/', list(store));
-	router.get('/:id', get(store));
-	router.post('/', create(store));
-
 	// Me
-	router.get('/me', me(store));
+	router.get('/me', me(store, config.secret));
 
 	// Registration
 	router.post('/register', register(store));
@@ -35,6 +30,12 @@ module.exports = function createRouter(store) {
 	// User data
 	router.get('/:id/data', getUserData(store));
 	router.post('/:id/data', insertUserData(store));
+
+	// CRUD
+	router.get('/', list(store));
+	router.get('/:id', get(store));
+	router.post('/', create(store));
+	router.put('/:id', modify(store));
 
 	return router;
 };
