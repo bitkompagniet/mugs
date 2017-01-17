@@ -11,12 +11,14 @@ module.exports = function(store) {
 
 			try {
 				const user = await store.create(req.body);
-				await store.addRole('admin', `users/${user._id}`);
-				await store.addRole('member', `users/${user._id}`);
+				await store.addRole(user._id, 'admin', `users/${user._id}`);
+				await store.addRole(user._id, 'member', `users/${user._id}`);
 
-				return res.success(user);
+				const userWithRoles = await store.get(user._id);
+
+				return res.success(userWithRoles);
 			} catch (e) {
-				return next(e);
+				return res.failure(e.message);
 			}
 		},
 	];

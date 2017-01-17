@@ -8,7 +8,7 @@ module.exports = function(store) {
 		async function(req, res, next) {
 			try {
 				const query = _.merge({}, req.query, {
-					roles: req.identity.roles.toArray(),
+					roles: req.identity.user.roles,
 				});
 
 				const result = await store.list(query);

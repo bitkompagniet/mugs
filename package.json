@@ -9,11 +9,10 @@
   "directories": {
     "test": "test"
   },
-   "scripts": { 
-	  "test": "./node_modules/.bin/mocha --harmony-async-await",
-	 "startWithFakeConfig": "appUrl=ligeglad.dk redirectConfirmUrl=ligeglad.dk logoLink=http://www.free-logotypes.com/logos/png/Win_95.png appName=mugs confirmationLink=http://www.test.dk/ db=localhost:27017 smtp=not.today secret=hemmeligt rumor=trace nodemon --harmony-async-await run-server.js",
-	  "start": "nodemon --harmony-async-await run-server.js"
-	},
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --harmony-async-await",
+    "start": "nodemon --harmony-async-await run-server.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bitkompagniet/mugs.git"
