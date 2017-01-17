@@ -18,7 +18,7 @@ module.exports = function(store) {
 					'data',
 				]);
 
-				const user = await store.create(acceptedBody);
+				const user = await store.insert(acceptedBody);
 				const rawUser = await store.getRaw(user._id);
 				await store.addRole(user._id, 'admin', `users/${user._id}`);
 				await store.addRole(user._id, 'member', `users/${user._id}`);
