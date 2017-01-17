@@ -7,6 +7,7 @@ const list = require('../controllers/list');
 const confirmRegister = require('../controllers/confirm-register');
 const get = require('../controllers/get');
 const create = require('../controllers/create');
+const modify = require('../controllers/modify');
 
 module.exports = function createRouter(store, config) {
 	const router = express.Router();
@@ -28,6 +29,7 @@ module.exports = function createRouter(store, config) {
 	router.get('/', list(store));
 	router.get('/:id', get(store));
 	router.post('/', create(store));
+	router.put('/:id', modify(store));
 
 	return router;
 };

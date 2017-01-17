@@ -10,7 +10,9 @@
     "test": "test"
   },
   "scripts": {
+    "test": "./node_modules/.bin/mocha --harmony-async-await",
     "start": "nodemon --harmony-async-await run-server.js"
+    
   },
   "repository": {
     "type": "git",
