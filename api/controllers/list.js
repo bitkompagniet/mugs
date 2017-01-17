@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const requireAuthentication = require('../middleware/requireAuthentication');
+const mercutio = require('mercutio');
 
 module.exports = function(store) {
 	return [
@@ -11,7 +12,13 @@ module.exports = function(store) {
 					roles: req.identity.user.roles,
 				});
 
-				const result = await store.list(query);
+				let result = await store.list(query);
+
+				if (req.query.role) {
+					const requiredUserRoles = mercutio(req.query.role);
+					result = result.filter(user => mercutio(user.roles).isAny(requiredUserRoles));
+				}
+
 				return res.success(result);
 			} catch (e) {
 				return next(e);
