@@ -14,11 +14,6 @@ module.exports = function createRouter(store, config) {
 	// Me
 	router.get('/me', me(store, config.secret));
 
-	// CRUD
-	router.get('/', list(store));
-	router.get('/:id', get(store));
-	router.post('/', create(store));
-
 	// Registration
 	router.post('/register', register(store));
 	router.get('/register/:token', confirmRegister(store));
@@ -28,6 +23,11 @@ module.exports = function createRouter(store, config) {
 
 	// Password recovery
 	router.get('/verify/:token', verify());
+
+	// CRUD
+	router.get('/', list(store));
+	router.get('/:id', get(store));
+	router.post('/', create(store));
 
 	return router;
 };
