@@ -3,7 +3,6 @@ module.exports = function() {
 		if (req.identity.authenticated) {
 			return next();
 		}
-		return next();
-		//return res.failure('Authentication required.', 401);
+		return res.failure('Authentication required.', 401);
 	};
 };
