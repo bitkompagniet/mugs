@@ -18,7 +18,7 @@ const getByEmail = require('../query/getByEmail');
 const get = require('../query/get');
 const insertUserData = require('../query/insertUserData');
 const getUserData = require('../query/getUserData');
-
+const deleteUser = require('../query/delete');
 
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Types.ObjectId;
@@ -59,6 +59,7 @@ module.exports = function (db) {
 	userSchema.virtual('fullname').get(function() {
 		return [this.firstname, this.lastname].filter(i => !!i).join(' ');
 	});
+
 	userSchema.statics.list = list;
 	userSchema.statics.get = get;
 	userSchema.statics.getByEmail = getByEmail;
@@ -76,6 +77,8 @@ module.exports = function (db) {
 	userSchema.statics.requestRecoveryToken = requestRecoveryToken;
 	userSchema.statics.insertUserData = insertUserData;
 	userSchema.statics.getUserData = getUserData;
+	userSchema.statics.delete = deleteUser;
+
 	return {
 		users: db.model('User', userSchema),
 	};

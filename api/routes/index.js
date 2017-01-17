@@ -8,11 +8,13 @@ const confirmRegister = require('../controllers/confirm-register');
 const get = require('../controllers/get');
 const insert = require('../controllers/insert');
 const modify = require('../controllers/modify');
+const deleteUser = require('../controllers/delete');
 const insertUserData = require('../controllers/insertUserData');
 const getUserData = require('../controllers/getUserData');
 
 module.exports = function createRouter(store, config) {
 	const router = express.Router();
+
 	// Me
 	router.get('/me', me(store, config.secret));
 
@@ -35,6 +37,7 @@ module.exports = function createRouter(store, config) {
 	router.get('/:id', get(store));
 	router.post('/', insert(store));
 	router.put('/:id', modify(store));
+	router.delete('/:id', deleteUser(store));
 
 	return router;
 };
