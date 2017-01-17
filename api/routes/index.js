@@ -29,7 +29,7 @@ module.exports = function createRouter(store, config) {
 	router.get('/', list(store));
 	router.get('/:id', get(store));
 	router.post('/', create(store));
-	router.put('/', modify(store));
+	router.put('/:id', modify(store));
 
 	return router;
 };
