@@ -6,7 +6,6 @@ module.exports = function(store) {
 		requireAuthentication(),
 
 		async function(req, res, next) {
-			if (!req.identity.is(`admin@users/${req.params.id}`)) return res.failure('');
 			try {
 				const query = _.merge({}, req.query, {
 					roles: req.identity.user.roles,
