@@ -4,7 +4,7 @@ module.exports = function(store) {
 	return [
 		requireAuthentication(),
 
-		async function(req, res, next) {
+		async function(req, res) {
 			if (!req.identity.is('admin@users')) {
 				return res.failure('You don\'t have permission to create a user.');
 			}
@@ -14,9 +14,11 @@ module.exports = function(store) {
 				await store.addRole('admin', `users/${user._id}`);
 				await store.addRole('member', `users/${user._id}`);
 
-				return res.success(user);
+				const userWithRoles = await store.get(user._id);
+
+				return res.success(userWithRoles);
 			} catch (e) {
-				return next(e);
+				return res.failure(e.message);
 			}
 		},
 	];
