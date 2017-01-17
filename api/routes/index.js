@@ -8,6 +8,7 @@ const confirmRegister = require('../controllers/confirm-register');
 const get = require('../controllers/get');
 const create = require('../controllers/create');
 const insertUserData = require('../controllers/insertUserData');
+const getUserData = require('../controllers/getUserData');
 
 
 module.exports = function createRouter(store) {
@@ -17,7 +18,6 @@ module.exports = function createRouter(store) {
 	router.get('/', list(store));
 	router.get('/:id', get(store));
 	router.post('/', create(store));
-	router.post('/:id/data', insertUserData(store));
 
 	// Me
 	router.get('/me', me(store));
@@ -32,6 +32,9 @@ module.exports = function createRouter(store) {
 	// Password recovery
 	router.get('/verify/:token', verify());
 
+	// User data
+	router.get('/:id/data', getUserData(store));
+	router.post('/:id/data', insertUserData(store));
 
 	return router;
 };

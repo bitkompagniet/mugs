@@ -17,6 +17,7 @@ const getByConfirmationToken = require('../query/getByConfirmationToken');
 const getByEmail = require('../query/getByEmail');
 const get = require('../query/get');
 const insertUserData = require('../query/insertUserData');
+const getUserData = require('../query/getUserData');
 
 
 const Schema = mongoose.Schema;
@@ -74,6 +75,7 @@ module.exports = function (db) {
 	userSchema.statics.confirmRegistration = confirmRegistration;
 	userSchema.statics.requestRecoveryToken = requestRecoveryToken;
 	userSchema.statics.insertUserData = insertUserData;
+	userSchema.statics.getUserData = getUserData;
 	return {
 		users: db.model('User', userSchema),
 	};
