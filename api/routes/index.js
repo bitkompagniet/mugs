@@ -8,16 +8,11 @@ const confirmRegister = require('../controllers/confirm-register');
 const get = require('../controllers/get');
 const create = require('../controllers/create');
 
-module.exports = function createRouter(store) {
+module.exports = function createRouter(store, config) {
 	const router = express.Router();
 
-	// CRUD
-	router.get('/', list(store));
-	router.get('/:id', get(store));
-	router.post('/', create(store));
-
 	// Me
-	router.get('/me', me(store));
+	router.get('/me', me(store, config.secret));
 
 	// Registration
 	router.post('/register', register(store));
@@ -28,6 +23,11 @@ module.exports = function createRouter(store) {
 
 	// Password recovery
 	router.get('/verify/:token', verify());
+
+	// CRUD
+	router.get('/', list(store));
+	router.get('/:id', get(store));
+	router.post('/', create(store));
 
 	return router;
 };

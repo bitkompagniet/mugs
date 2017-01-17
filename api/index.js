@@ -13,7 +13,7 @@ module.exports = function (store, config) {
 	app.use(configuration(config));
 	app.use(respondo.authorizationIdentity(config.secret));
 	app.use(mercutio.middleware());
-	app.use(routes(store));
+	app.use(routes(store, config));
 	app.use(respondo.errors(false));
 
 	return app;
