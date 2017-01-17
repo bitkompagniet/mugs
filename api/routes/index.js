@@ -9,7 +9,7 @@ const get = require('../controllers/get');
 const create = require('../controllers/create');
 const deleteUser = require('../controllers/delete');
 
-module.exports = function createRouter(store) {
+module.exports = function createRouter(store, config) {
 	const router = express.Router();
 
 	// CRUD
@@ -17,8 +17,9 @@ module.exports = function createRouter(store) {
 	router.get('/:id', get(store));
 	router.post('/', create(store));
 	router.delete('/:id', deleteUser(store));
+
 	// Me
-	router.get('/me', me(store));
+	router.get('/me', me(store, config.secret));
 
 	// Registration
 	router.post('/register', register(store));
@@ -29,6 +30,7 @@ module.exports = function createRouter(store) {
 
 	// Password recovery
 	router.get('/verify/:token', verify());
+
 
 	return router;
 };
