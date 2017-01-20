@@ -1658,9 +1658,9 @@ media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
 
-mercutio@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/mercutio/-/mercutio-0.3.0.tgz#278c1df046aec7ddab678953cbd19565d788d9b6"
+mercutio@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/mercutio/-/mercutio-0.4.0.tgz#b09b3a76205bd73b4df3a04cc850352a94d442df"
   dependencies:
     jsonwebtoken "^7.1.9"
     lodash "^4.17.2"

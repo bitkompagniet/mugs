@@ -29,7 +29,7 @@
     "handlebars": "^4.0.6",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.16.6",
-    "mercutio": "^0.3.0",
+    "mercutio": "^0.4.1",
     "moment": "^2.16.0",
     "mongoose": "^4.6.5",
     "nodemailer": "^2.6.4",
