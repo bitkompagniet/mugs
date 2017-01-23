@@ -40,12 +40,12 @@ describe('store', function () {
 		it('should be able to modify a user', function() {
 			return store.reset()
 				.then(() => createUser())
-				.then(user => store.modify(Object.assign(user, { fullname: 'Alice' })))
+				.then(user => store.modify(user._id, Object.assign(user, { firstname: 'Alice' })))
 				.should.be.fulfilled
 				.then((res) => {
 					should.exist(res);
 					res.email.should.equal('bob@bitkompagniet.dk');
-					res.fullname.should.equal('Alice');
+					res.firstname.should.equal('Alice');
 				});
 		});
 
@@ -58,7 +58,7 @@ describe('store', function () {
 		it('should fail when we try to set the e-mail to something invalid', function() {
 			return store.reset()
 				.then(() => createUser())
-				.then(user => store.modify(Object.assign(user, { email: 'invalid' })))
+				.then(user => store.modify(user._id, Object.assign(user, { email: 'invalid' })))
 				.should.be.rejected;
 		});
 
@@ -91,7 +91,6 @@ describe('store', function () {
 				.then((res) => {
 					res.should.be.an('array');
 					res.should.have.length(2);
-					res[0].fullname.should.equal(testUsers[0].fullname);
 				});
 		});
 
@@ -102,7 +101,6 @@ describe('store', function () {
 				.then((res) => {
 					res.should.be.an('array');
 					res.should.have.length(1);
-					res[0].fullname.should.equal(testUsers[1].fullname);
 				});
 		});
 	});
@@ -124,7 +122,7 @@ describe('store', function () {
 					roles.should.have.length(1);
 					roles[0].should.be.an('object');
 					const role = roles[0];
-					role.should.contain.all.keys('role', 'group');
+					role.should.contain.all.keys('role', 'scope');
 				});
 		});
 	});
