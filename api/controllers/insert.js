@@ -11,8 +11,8 @@ module.exports = function(store) {
 
 			try {
 				const user = await store.insert(req.body);
-				await store.addRole('admin', `users/${user._id}`);
-				await store.addRole('member', `users/${user._id}`);
+				await store.addRole(user._id, 'admin', `users/${user._id}`);
+				await store.addRole(user._id, 'member', `users/${user._id}`);
 
 				const userWithRoles = await store.get(user._id);
 
