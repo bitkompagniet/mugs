@@ -18,6 +18,8 @@ module.exports = function() {
 			}
 		}
 
+		req.body.roles = addExtraRoles;
+
 		return next();
 	};
 };
