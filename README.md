@@ -1,3 +1,9 @@
+# How to run unit tests
+
+```
+smtp=smtps://username:password@smtp.gmail.com:465 npm test
+```
+
 # ENV vars
 
 ## Mandatory

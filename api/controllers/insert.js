@@ -1,18 +1,25 @@
 const requireAuthentication = require('../middleware/requireAuthentication');
+const allowedBodyProperties = require('../middleware/allowedBodyProperties');
+const ensureFirstLastname = require('../middleware/ensureFirstLastname');
+const requireUserAdmin = require('../middleware/requireUserAdmin');
+const validateBodyRoleAssignments = require('../middleware/validateBodyRoleAssignments');
 
 module.exports = function(store) {
 	return [
 		requireAuthentication(),
+		requireUserAdmin(),
+		ensureFirstLastname(),
+		validateBodyRoleAssignments(),
+		allowedBodyProperties(['email', 'firstname', 'lastname', 'password', 'data', 'roles']),
 
 		async function(req, res) {
-			if (!req.identity.is('admin@users')) {
-				return res.failure('You don\'t have permission to create a user.');
-			}
-
 			try {
-				const user = await store.insert(req.body);
-				await store.addRole('admin', `users/${user._id}`);
-				await store.addRole('member', `users/${user._id}`);
+				const user = await store.insert(req.allowedBody);
+
+				await Promise.all([
+					store.addRole(user._id, 'admin', `users/${user._id}`),
+					store.addRole(user._id, 'member', `users/${user._id}`),
+				]);
 
 				const userWithRoles = await store.get(user._id);
 

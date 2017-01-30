@@ -19,7 +19,15 @@ describe('api', function () {
 
 	before(() =>
 		store.reset().then(() => {
-			serverInstance = server(api(store, { secret: 'ssh' }));
+			const configuration = _.merge({}, {
+				secret: 'ssh',
+				appUrl: 'http://test.site',
+				appName: 'Mugs Unit Tests',
+				logoLink: 'http://unity-coding.slashgames.org/wp-content/uploads/unit-test.jpg',
+				redirectConfirmUrl: 'http://test.site/confirm',
+			}, process.env);
+
+			serverInstance = server(api(store, configuration));
 		})
 	);
 
@@ -38,6 +46,7 @@ describe('api', function () {
 
 	describe('/register', function() {
 		it('should allow e-mail bob@bitkompagniet.dk, fullname Bob Doe and password !supersecret29', function() {
+			this.timeout(5000);
 			return client
 				.post('/register', { email: 'bob@bitkompagniet.dk', fullname: 'Bob Doe', password: '!supersecret29' })
 				.then(getResult)
@@ -67,8 +76,7 @@ describe('api', function () {
 				.then((data) => {
 					data.code.should.equal(401);
 					should.exist(data.error);
-					console.log(data);
-					data.error.should.contain('Wrong');
+					data.error.should.contain('Invalid');
 				});
 		});
 	});
