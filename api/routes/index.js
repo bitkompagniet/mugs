@@ -12,6 +12,7 @@ const deleteUser = require('../controllers/delete');
 const insertUserData = require('../controllers/insertUserData');
 const getUserData = require('../controllers/getUserData');
 const removeRole = require('../controllers/remove-role');
+const addRole = require('../controllers/addRole');
 
 module.exports = function createRouter(store, config) {
 	const router = express.Router();
@@ -41,7 +42,8 @@ module.exports = function createRouter(store, config) {
 	router.delete('/:id', deleteUser(store));
 
 	// Roles
-	router.delete('/:id/roles', removeRole(store));
+	router.delete(/\/(.+)\/roles\/([\wæøåÆØÅ]+)@([/\wæøåÆØÅ]+)$/i, removeRole(store));
+	router.post('/:id/roles', addRole(store));
 
 	return router;
 };
