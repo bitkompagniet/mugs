@@ -11,6 +11,7 @@ const modify = require('../controllers/modify');
 const deleteUser = require('../controllers/delete');
 const insertUserData = require('../controllers/insertUserData');
 const getUserData = require('../controllers/getUserData');
+const removeRole = require('../controllers/remove-role');
 
 module.exports = function createRouter(store, config) {
 	const router = express.Router();
@@ -38,6 +39,9 @@ module.exports = function createRouter(store, config) {
 	router.post('/', insert(store));
 	router.put('/:id', modify(store));
 	router.delete('/:id', deleteUser(store));
+
+	// Roles
+	router.delete('/:id/roles', removeRole(store));
 
 	return router;
 };
