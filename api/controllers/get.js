@@ -9,7 +9,10 @@ module.exports = function(store) {
 			const user = await store.get(req.params.id);
 			return res.success(user);
 		} catch (e) {
-			return next(e);
+			if (e.path === '_id' && e.name === 'CastError') {
+				return res.failure('Invalid id', 400);
+			}
+			return res.failure(e);
 		}
 	};
 
