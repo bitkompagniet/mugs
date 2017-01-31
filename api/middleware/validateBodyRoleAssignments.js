@@ -18,7 +18,7 @@ module.exports = function() {
 			}
 		}
 
-		req.body.roles = addExtraRoles;
+		if (addExtraRoles) req.body.roles = addExtraRoles;
 
 		return next();
 	};
