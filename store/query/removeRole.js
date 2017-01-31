@@ -1,10 +1,6 @@
 const mercutio = require('mercutio');
 
 module.exports = async function (_id, role, scope) {
-	// await this.findOneAndUpdate({ _id }, {
-	// 	$pull: { roles: { role, scope } },
-	// });
-
 	const user = await this.findById(_id);
 	const rolesWeWantToDelete = mercutio({ role, scope });
 
