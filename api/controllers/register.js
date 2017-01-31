@@ -18,20 +18,22 @@ module.exports = function(store) {
 					'data',
 				]);
 
-				const user = await store.insert(acceptedBody);
-				const rawUser = await store.getRaw(user._id);
-				await store.addRole(user._id, 'admin', `users/${user._id}`);
-				await store.addRole(user._id, 'member', `users/${user._id}`);
+				// const user = await store.insert(acceptedBody);
+				// const rawUser = await store.getRaw(user._id);
+				// await store.addRole(user._id, 'admin', `users/${user._id}`);
+				// await store.addRole(user._id, 'member', `users/${user._id}`);
+
+				const result = await store.register(acceptedBody);
 
 				const appUrl = req.configuration('appUrl');
 				const mountPath = _.isArray(req.app.mountpath) ? req.app.mountpath[0] : req.app.mountpath;
-				const confirmRegistrationUrl = urlJoin(appUrl, mountPath, '/register/', rawUser.confirmationToken);
+				const confirmRegistrationUrl = urlJoin(appUrl, mountPath, '/register/', result.confirmationToken);
 
 				rumor.debug(`Confirm registration URL: ${confirmRegistrationUrl}`);
-				await mail.confirmation(_.merge({}, user, req.configuration(), { confirmRegistrationUrl }));
+				await mail.confirmation(_.merge({}, result.user, req.configuration(), { confirmRegistrationUrl }));
 
-				const updatedUser = await store.get(user._id);
-				return res.success(updatedUser);
+				// const updatedUser = await store.get(user._id);
+				return res.success(result.user);
 			} catch (e) {
 				return next(e);
 			}

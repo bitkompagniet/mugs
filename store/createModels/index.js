@@ -19,6 +19,7 @@ const get = require('../query/get');
 const insertUserData = require('../query/insertUserData');
 const getUserData = require('../query/getUserData');
 const deleteUser = require('../query/delete');
+const defaultRoles = require('../query/defaultRoles');
 
 const Schema = mongoose.Schema;
 const ObjectId = mongoose.Types.ObjectId;
@@ -78,6 +79,7 @@ module.exports = function (db) {
 	userSchema.statics.insertUserData = insertUserData;
 	userSchema.statics.getUserData = getUserData;
 	userSchema.statics.delete = deleteUser;
+	userSchema.statics.defaultRoles = defaultRoles;
 
 	return {
 		users: db.model('User', userSchema),

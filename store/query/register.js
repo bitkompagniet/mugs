@@ -1,5 +1,10 @@
-module.exports = function(user) {
-	return this
-		.insert(user)
-		.then(created => ({ _id: created._id, email: created.email, confirmationToken: created.confirmationToken }));
+module.exports = async function(user) {
+	const rawUser = await this.create(user);
+	await this.defaultRoles(rawUser._id);
+	const result = await this.get(rawUser._id);
+
+	return {
+		user: result,
+		confirmationToken: rawUser.confirmationToken,
+	};
 };
