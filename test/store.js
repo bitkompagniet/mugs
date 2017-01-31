@@ -34,6 +34,14 @@ describe('store', function () {
 					res.should.contain.all.keys('_id', 'email', 'fullname', 'confirmed', 'created', 'id', 'roles', 'updated');
 				});
 		});
+
+		it('should confirm the user directly', async function() {
+			await store.reset();
+			const user = await createUser();
+			should.not.exist(user.confirmationToken);
+			should.exist(user.confirmed);
+			user.confirmed.should.be.instanceof(Date);
+		});
 	});
 
 	describe('.update', function() {
@@ -68,7 +76,7 @@ describe('store', function () {
 				.then(user => store.modify(Object.assign(user, { roles: ['user-manager'] })))
 				.should.be.fulfilled
 				.then((res) => {
-					res.roles.should.have.length(0);
+					res.roles.should.have.length(2);
 				});
 		});
 	});
@@ -105,35 +113,30 @@ describe('store', function () {
 		});
 	});
 
-	describe('.addRole', function() {
-		it('should be able to add the "user-manager" role to an existing user', function() {
-			return store.reset()
-				.then(() => createUser())
-				.then((user) => {
-					user.should.have.property('roles').that.is.empty;
-					return user._id;
-				})
-				.then(_id =>
-					store.addRole(_id, 'admin', 'admins').then(() => store.get(_id))
-				)
-				.then(user => {
-					const roles = user.roles;
-					roles.should.be.an('array');
-					roles.should.have.length(1);
-					roles[0].should.be.an('object');
-					const role = roles[0];
-					role.should.contain.all.keys('role', 'scope');
-				});
+	describe('.addRoles', function() {
+		it('should be able to add a role to an existing user', async function() {
+			await store.reset();
+			const user = await createUser();
+			user.should.have.property('roles').that.has.length(2);
+			await store.addRoles(user._id, [{ role: 'admin', scope: 'admins' }]);
+
+			const fetchedUser = await store.get(user._id);
+			const roles = fetchedUser.roles;
+			roles.should.be.an('array');
+			roles.should.have.length(3);
 		});
 	});
 
-	describe('.removeRole', function() {
-		it('should be able to remove the "user-manager" role from an existing user', function() {
-			return store.reset()
-				.then(() => createUser())
-				.then(user => store.addRole(user._id, 'admin', 'admins').then(() => store.get(user._id)))
-				.then(user => store.removeRole(user._id, 'admin', 'admins').then(() => store.get(user._id)))
-				.should.eventually.have.property('roles').that.is.empty;
+	describe('.removeRoles', function() {
+		it('should be able to remove a role from an existing user', async function() {
+			await store.reset();
+			let user = await createUser();
+			user = await store.addRoles(user._id, [{ role: 'admin', scope: 'admins' }]);
+			user.should.have.property('roles').that.has.length(3);
+			user = await store.removeRoles(user._id, [{ role: 'admin', scope: 'admins' }]);
+			user.should.have.property('roles').that.has.length(2);
+
+			return;
 		});
 	});
 
@@ -148,15 +151,6 @@ describe('store', function () {
 				.then((user) => {
 					user.should.have.property('confirmed').that.is.a('date');
 				});
-		});
-	});
-
-	describe('.requestRecoveryToken', function() {
-		it('should throw if we try to request a token for an unconfirmed user', function() {
-			return store.reset()
-				.then(() => createUser())
-				.then(user => store.requestRecoveryToken(user.email))
-				.should.be.rejected;
 		});
 	});
 });

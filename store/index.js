@@ -16,15 +16,15 @@ module.exports = function (uri) {
 
 	const models = createModels(store.connection);
 
-	store.insert = data => models.users.insert(data);
+	store.register = data => models.users.register(data);
+	store.insert = (data, roles) => models.users.insert(data, roles);
 	store.login = (email, password) => models.users.auth(email, password);
 	store.list = query => models.users.list(query);
 	store.delete = id => models.users.delete(id);
 	store.get = id => models.users.get(id);
 	store.getByEmail = email => models.users.getByEmail(email);
-	store.getRaw = id => models.users.getRaw(id);
-	store.addRole = (id, role, group) => models.users.addRole(id, role, group);
-	store.removeRole = (id, role, group) => models.users.removeRole(id, role, group);
+	store.addRoles = (id, roles) => models.users.addRoles(id, roles);
+	store.removeRoles = (id, roles) => models.users.removeRoles(id, roles);
 	store.reset = () => resetDB(store);
 	store.modify = (id, body) => models.users.modify(id, body);
 	store.confirmRegistration = confirmationToken => models.users.confirmRegistration(confirmationToken);
