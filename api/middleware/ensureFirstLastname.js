@@ -8,7 +8,13 @@ module.exports = function() {
 			}
 
 			const split = req.body.fullname.split(' ').filter(i => _.isString(i) && !_.isEmpty(i));
-			req.body.firstname = split.slice(0, -1);
+			const firstnameArray = split.slice(0, -1);
+
+			req.body.firstname = '';
+			firstnameArray.forEach(function(name) {
+				req.body.firstname += `${name} `;
+			});
+			req.body.firstname = req.body.firstname.substring(0, req.body.firstname.length - 1);
 			req.body.lastname = split.slice(-1);
 			delete req.body.fullname;
 		}
