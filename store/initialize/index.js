@@ -12,7 +12,7 @@ const users = [
 	},
 ];
 
-async function ensureUser(store, { email, password, firstname, lastname, roles }) {
+async function ensureUser(store, { email, password, firstname, lastname }) {
 	const existing = await store.getByEmail(email);
 
 	if (existing) {
@@ -20,28 +20,12 @@ async function ensureUser(store, { email, password, firstname, lastname, roles }
 		return false;
 	}
 
-	const result = await store.insert({
+	await store.insert({
 		email,
 		password,
 		firstname,
 		lastname,
 	});
-
-	const id = result._id;
-
-	await Promise.all(
-		roles
-			.map(role => store.addRole(id, role.role, role.scope))
-			.concat([
-				store.addRole(id, 'admin', `users/${result._id}`),
-				store.addRole(id, 'member', `users/${result._id}`),
-			])
-	);
-
-	const rawUser = await store.getRaw(id);
-	const confirmationToken = rawUser.confirmationToken;
-
-	await store.confirmRegistration(confirmationToken);
 
 	rumor.info(`Created ${email} user.`);
 

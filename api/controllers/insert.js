@@ -15,12 +15,7 @@ module.exports = function(store) {
 		async function(req, res) {
 			try {
 				const user = await store.insert(req.allowedBody);
-
-				await Promise.all([
-					store.addRole(user._id, 'admin', `users/${user._id}`),
-					store.addRole(user._id, 'member', `users/${user._id}`),
-				]);
-
+				await store.configureDefaultRoles(user._id);
 				const userWithRoles = await store.get(user._id);
 
 				return res.success(userWithRoles);
