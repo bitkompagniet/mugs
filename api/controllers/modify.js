@@ -1,4 +1,4 @@
-const ensureFirstLastname = require('../middleware/ensureFirstLastname');
+const ensureFirstLastname = require('../middleware/ensure-first-last-name');
 const requireRole = require('../middleware/require-role');
 
 module.exports = function(store) {

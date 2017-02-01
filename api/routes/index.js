@@ -9,8 +9,8 @@ const get = require('../controllers/get');
 const insert = require('../controllers/insert');
 const modify = require('../controllers/modify');
 const deleteUser = require('../controllers/delete');
-const insertUserData = require('../controllers/insertUserData');
-const getUserData = require('../controllers/getUserData');
+const insertUserData = require('../controllers/insert-user-data');
+const getUserData = require('../controllers/get-user-data');
 const removeRole = require('../controllers/remove-role');
 const addRole = require('../controllers/add-role');
 

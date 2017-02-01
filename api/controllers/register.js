@@ -2,7 +2,7 @@ const rumor = require('rumor')('mugs:api:register');
 const _ = require('lodash');
 const mail = require('../../lib/mail');
 const urlJoin = require('url-join');
-const ensureFirstLastname = require('../middleware/ensureFirstLastname');
+const ensureFirstLastname = require('../middleware/ensure-first-last-name');
 
 module.exports = function(store) {
 	return [

@@ -1,7 +1,7 @@
-const allowedBodyProperties = require('../middleware/allowedBodyProperties');
-const ensureFirstLastname = require('../middleware/ensureFirstLastname');
-const requireUserAdmin = require('../middleware/requireUserAdmin');
-const validateBodyRoleAssignments = require('../middleware/validateBodyRoleAssignments');
+const allowedBodyProperties = require('../middleware/allowed-body-properties');
+const ensureFirstLastname = require('../middleware/ensure-first-last-name');
+const requireUserAdmin = require('../middleware/require-user-admin');
+const validateBodyRoleAssignments = require('../middleware/validate-body-role-assignments');
 
 module.exports = function(store) {
 	return [
