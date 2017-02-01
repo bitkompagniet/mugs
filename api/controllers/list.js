@@ -1,10 +1,10 @@
 const _ = require('lodash');
-const requireAuthentication = require('../middleware/requireAuthentication');
 const mercutio = require('mercutio');
+const requireRole = require('../middleware/require-role');
 
 module.exports = function(store) {
 	return [
-		requireAuthentication(),
+		requireRole(),
 
 		async function(req, res, next) {
 			try {

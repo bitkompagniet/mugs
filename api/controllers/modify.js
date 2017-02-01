@@ -1,21 +1,17 @@
 const ensureFirstLastname = require('../middleware/ensureFirstLastname');
+const requireRole = require('../middleware/require-role');
 
 module.exports = function(store) {
 	return [
-
+		requireRole(req => `admin@users/${req.params.id}`),
 		ensureFirstLastname(),
 
-		async function(req, res) {
-			const id = req.params.id;
-			const body = req.body;
-
-			if (!req.identity.is(`admin@users/${id}`)) return res.failure('You do not have permissions to modify this object.', 403);
-
+		async function(req, res, next) {
 			try {
-				const result = await store.modify(req.params.id, body);
+				const result = await store.modify(req.params.id, req.body);
 				return res.success(result);
 			} catch (e) {
-				return res.failure(e.message, 400);
+				return next(e);
 			}
 		},
 

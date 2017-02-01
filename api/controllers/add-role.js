@@ -1,13 +1,11 @@
-const requireAuthentication = require('../middleware/requireAuthentication');
+const requireRole = require('../middleware/require-role');
 
 module.exports = function(store) {
 	return [
-		requireAuthentication(),
+		requireRole(req => `admin@users/${req.params.id}`),
 
 		async function(req, res) {
-			const id = req.params.id;
-			if (!req.identity.is(`admin@users/${id}`)) return res.failure('You do not have permissions to modify this object.', 403);
-			const newRoles = await store.addRoles(id, [{ role: req.body.role, scope: req.body.scope }]);
+			const newRoles = await store.addRoles(req.params.id, [{ role: req.body.role, scope: req.body.scope }]);
 			return res.success(newRoles);
 		},
 	];

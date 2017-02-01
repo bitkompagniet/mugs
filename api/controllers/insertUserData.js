@@ -1,9 +1,10 @@
-const requireAuthentication = require('../middleware/requireAuthentication');
+const requireRole = require('../middleware/require-role');
 
 module.exports = function(store) {
-	return [requireAuthentication(),
+	return [
+		requireRole(req => `admin@users/${req.params.id}`),
+
 		async function(req, res) {
-			if (!req.identity.is(`admin@users/${req.params.id}`)) return res.failure('');
 			const id = req.params.id;
 			const data = req.body.data;
 

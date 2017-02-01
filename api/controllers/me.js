@@ -1,10 +1,10 @@
 const jsonwebtoken = require('jsonwebtoken');
 const tokenExpiry = require('../../lib/token-expiry');
-const requireAuthentication = require('../middleware/requireAuthentication');
+const requireRole = require('../middleware/require-role');
 
 module.exports = function(store, secret) {
 	return [
-		requireAuthentication(),
+		requireRole(),
 
 		async function(req, res) {
 			try {
