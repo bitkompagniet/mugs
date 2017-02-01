@@ -81,10 +81,15 @@ describe('api', function () {
 		});
 	});
 
-	async function authClient() {
-		const payload = await client.post('/login', { email: 'admin@mugs.info', password: 'admin' });
+	async function loginClient(email, password) {
+		const payload = await client.post('/login', { email, password });
+		payload.data.success.should.be.ok;
 		const token = payload.data.result.token;
 		return axios.create(_.merge({}, clientBaseSettings, { headers: { Authorization: token } }));
+	}
+
+	function authClient() {
+		return loginClient('admin@mugs.info', 'admin');
 	}
 
 	describe('GET /me', function() {
@@ -151,6 +156,36 @@ describe('api', function () {
 			payload.data.success.should.be.ok;
 			should.exist(payload.data.result);
 			payload.data.result.email.should.equal('b@b.dk');
+		});
+	});
+
+	describe('POST /:id/roles', function() {
+		it('should post new roles when added administratively', async function() {
+			const c = await authClient();
+			let payload = await c.post('/', { email: 'c@c.dk', password: 'hest' });
+			payload.data.success.should.be.ok;
+			const id = payload.data.result._id;
+			payload = await c.post(`/${id}/roles`, { role: 'editor', scope: 'websites' });
+			payload.data.success.should.be.ok;
+			let roles = payload.data.result.roles;
+			roles.should.have.length(3);
+			roles.filter(i => i.role === 'editor').should.have.length(1);
+			payload = await c.get(`/${id}`);
+			roles = payload.data.result.roles;
+			roles.should.have.length(3);
+			roles.filter(i => i.role === 'editor').should.have.length(1);
+		});
+
+		it('should not accept new roles when added by oneself', async function() {
+			let payload = await client.post('/register', { email: 'd@d.dk', password: 'hest' });
+			payload.data.success.should.be.ok;
+			const c = await loginClient('d@d.dk', 'hest');
+			payload = await c.get('/me');
+			const me = payload.data.result.user;
+			const id = me._id;
+			me.roles.should.have.length(2);
+			payload = await c.post(`/${id}/roles`, { role: 'editor', scope: 'websites' });
+			payload.data.success.should.not.be.ok;
 		});
 	});
 
