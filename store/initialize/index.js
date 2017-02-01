@@ -12,7 +12,7 @@ const users = [
 	},
 ];
 
-async function ensureUser(store, { email, password, firstname, lastname }) {
+async function ensureUser(store, { email, password, firstname, lastname, roles }) {
 	const existing = await store.getByEmail(email);
 
 	if (existing) {
@@ -25,6 +25,7 @@ async function ensureUser(store, { email, password, firstname, lastname }) {
 		password,
 		firstname,
 		lastname,
+		roles,
 	});
 
 	rumor.info(`Created ${email} user.`);

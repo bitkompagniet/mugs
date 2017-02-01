@@ -1,3 +1,8 @@
-module.exports = function (store) {
-	return store.ready.then(() => store.connection.db.dropDatabase());
+const initialize = require('../initialize');
+
+module.exports = async function (store) {
+	await store.ready;
+	await store.connection.db.dropDatabase();
+	await initialize(store);
+	return;
 };

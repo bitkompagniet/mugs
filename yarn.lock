@@ -1679,9 +1679,9 @@ media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
 
-mercutio@^0.4.2:
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/mercutio/-/mercutio-0.4.2.tgz#36f9a0f9f0efae1b82c3060f560ed4508cd72137"
+mercutio@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/mercutio/-/mercutio-0.4.3.tgz#0ef0adc18cb013feee6564b87e6c6ae48d129011"
   dependencies:
     jsonwebtoken "^7.1.9"
     lodash "^4.17.2"
@@ -2345,15 +2345,7 @@ rimraf@2, rimraf@^2.2.8, rimraf@~2.5.1, rimraf@~2.5.4:
   dependencies:
     glob "^7.0.5"
 
-rumor@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/rumor/-/rumor-1.0.0.tgz#a132ecf3078aba62c6ef5f5ff3907ec7c78fa3ae"
-  dependencies:
-    chalk "^1.1.3"
-    lodash "^4.16.6"
-    moment "^2.15.2"
-
-rumor@^1.1.0:
+rumor@^1.0.0, rumor@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/rumor/-/rumor-1.1.0.tgz#2fbc07a74ffef4e199b9883984315bf42e47618f"
   dependencies:

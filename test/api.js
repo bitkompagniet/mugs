@@ -3,7 +3,6 @@
 
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
-const rumor = require('rumor')('test:api');
 const axios = require('axios');
 const store = require('../store')('localhost:27017/mugs-unit-api');
 const api = require('../api');
@@ -15,21 +14,22 @@ const should = chai.should(); // eslint-disable-line
 chai.use(chaiAsPromised);
 
 describe('api', function () {
+	this.timeout(300000);
 	let serverInstance;
 
-	before(() =>
-		store.reset().then(() => {
-			const configuration = _.merge({}, {
-				secret: 'ssh',
-				appUrl: 'http://test.site',
-				appName: 'Mugs Unit Tests',
-				logoLink: 'http://unity-coding.slashgames.org/wp-content/uploads/unit-test.jpg',
-				redirectConfirmUrl: 'http://test.site/confirm',
-			}, process.env);
+	before(async () => {
+		await store.reset();
 
-			serverInstance = server(api(store, configuration));
-		})
-	);
+		const configuration = _.merge({}, {
+			secret: 'ssh',
+			appUrl: 'http://test.site',
+			appName: 'Mugs Unit Tests',
+			logoLink: 'http://unity-coding.slashgames.org/wp-content/uploads/unit-test.jpg',
+			redirectConfirmUrl: 'http://test.site/confirm',
+		}, process.env);
+
+		serverInstance = server(api(store, configuration));
+	});
 
 	const clientBaseSettings = {
 		baseURL: 'http://localhost:3000',
@@ -81,12 +81,11 @@ describe('api', function () {
 		});
 	});
 
-	const authClient = () =>
-		client
-			.post('/login', { email: 'bob@bitkompagniet.dk', password: '!supersecret29' })
-			.then(getResult)
-			.then(res => res.token)
-			.then(token => axios.create(_.merge({}, clientBaseSettings, { headers: { Authorization: token } })));
+	async function authClient() {
+		const payload = await client.post('/login', { email: 'admin@mugs.info', password: 'admin' });
+		const token = payload.data.result.token;
+		return axios.create(_.merge({}, clientBaseSettings, { headers: { Authorization: token } }));
+	}
 
 	describe('/me', function() {
 		it('should not be accessible without Authorization header', function() {
@@ -130,6 +129,15 @@ describe('api', function () {
 					payload.refresh.should.be.a('string');
 					payload.refresh.should.not.equal(firstToken);
 				});
+		});
+	});
+
+	describe('POST /', function() {
+		it('should post a user correctly when using the admin login', async function() {
+			const c = await authClient();
+			const payload = await c.post('/', { email: 'test@test.dk', password: 'hest' });
+			payload.data.success.should.be.ok;
+			should.exist(payload.data.result.confirmed);
 		});
 	});
 
