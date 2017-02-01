@@ -34,7 +34,7 @@
     "mongoose": "^4.6.5",
     "nodemailer": "^2.6.4",
     "respondo": "^0.5.0",
-    "rumor": "^1.0.0",
+    "rumor": "^1.1.0",
     "url-join": "^1.1.0",
     "validator": "^6.1.0"
   },
