@@ -88,7 +88,7 @@ describe('store', function () {
 				.then(() => store.list())
 				.then((res) => {
 					res.should.be.an('array');
-					res.should.have.length(testUsers.length);
+					res.should.have.length(testUsers.length + 1);
 				});
 		});
 

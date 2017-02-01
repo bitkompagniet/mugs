@@ -44,7 +44,7 @@ describe('api', function () {
 	const getData = data => data.data;
 	const getResult = data => data.data.result;
 
-	describe('/register', function() {
+	describe('POST /register', function() {
 		it('should allow e-mail bob@bitkompagniet.dk, fullname Bob Doe and password !supersecret29', function() {
 			this.timeout(5000);
 			return client
@@ -57,7 +57,7 @@ describe('api', function () {
 		});
 	});
 
-	describe('/login', function() {
+	describe('POST /login', function() {
 		it('should be able to login with bob@bitkompagniet.dk:!supersecret29', function() {
 			return client
 				.post('/login', { email: 'bob@bitkompagniet.dk', password: '!supersecret29' })
@@ -87,7 +87,7 @@ describe('api', function () {
 		return axios.create(_.merge({}, clientBaseSettings, { headers: { Authorization: token } }));
 	}
 
-	describe('/me', function() {
+	describe('GET /me', function() {
 		it('should not be accessible without Authorization header', function() {
 			return client
 				.get('/me')
@@ -109,7 +109,7 @@ describe('api', function () {
 		});
 	});
 
-	describe('/verify/:token', function() {
+	describe('GET /verify/:token', function() {
 		it('should be able to verify and renew a valid token', function() {
 			let firstToken = null;
 
@@ -138,6 +138,19 @@ describe('api', function () {
 			const payload = await c.post('/', { email: 'test@test.dk', password: 'hest' });
 			payload.data.success.should.be.ok;
 			should.exist(payload.data.result.confirmed);
+		});
+	});
+
+	describe('GET /:id', function() {
+		it('should correctly retrieve a user we have access to', async function() {
+			const c = await authClient();
+			let payload = await c.post('/', { email: 'b@b.dk', password: 'hest' });
+			payload.data.success.should.be.ok;
+			const id = payload.data.result._id;
+			payload = await c.get(`/${id}`);
+			payload.data.success.should.be.ok;
+			should.exist(payload.data.result);
+			payload.data.result.email.should.equal('b@b.dk');
 		});
 	});
 
