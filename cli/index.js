@@ -4,9 +4,11 @@ const minimist = require('minimist');
 const tokenExpiry = require('../lib/token-expiry');
 const moment = require('moment');
 const chalk = require('chalk');
+const id = 'abcdef0123456789abcdef01';
 
 function createModel(roles) {
 	return {
+		_id: id,
 		email: 'test@mugs.info',
 		firstname: 'Test',
 		lastname: 'Testsen',
@@ -16,7 +18,7 @@ function createModel(roles) {
 
 function createRoles(roles) {
 	try {
-		const roleArray = mercutio(roles).toArray();
+		const roleArray = mercutio([`admin@users/${id}`, `member@users/${id}`, ...roles]).toArray();
 		return roleArray;
 	} catch (e) {
 		console.log('Roles were not in a recognizable format. Please use [role]@[scope].');
