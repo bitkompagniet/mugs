@@ -10,6 +10,7 @@
     "test": "test"
   },
   "scripts": {
+    "production": "node --harmony-async-await run-server.js",
     "test": "./node_modules/.bin/mocha --harmony-async-await",
     "start": "nodemon --harmony-async-await run-server.js",
     "sign": "node cli/index.js"
