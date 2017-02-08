@@ -42,7 +42,13 @@ smtp=smtps://username:password@smtp.gmail.com:465 npm test
 
 # Command line
 
-You can sign a test user token with `npm run sign --secret [secret] [...roles]`, where roles are space-separated roles on the `role@scope` form. Secret is optional, and will default to `ssh`. The expiry period will be set to 7 days on creation.
+You can sign a test user token with:
+
+```bash
+npm run sign -- [--secret <secret>] [--clean] [...roles]
+```
+
+Roles are space-separated roles on the `role@scope` form. `secret` is optional, and will default to `ssh`. The expiry period will be set to 7 days on creation. `clean` can be set to suppress adding default user roles.
 
 # Endpoints
 

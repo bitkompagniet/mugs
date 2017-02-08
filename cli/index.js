@@ -16,9 +16,11 @@ function createModel(roles) {
 	};
 }
 
-function createRoles(roles) {
+function createRoles(roles, suppressUserRoles = false) {
 	try {
-		const roleArray = mercutio([`admin@users/${id}`, `member@users/${id}`, ...roles]).toArray();
+		let cRoles = [...roles];
+		if (!suppressUserRoles) cRoles = [`admin@users/${id}`, `member@users/${id}`, ...cRoles];
+		const roleArray = mercutio(cRoles).toArray();
 		return roleArray;
 	} catch (e) {
 		console.log('Roles were not in a recognizable format. Please use [role]@[scope].');
@@ -39,7 +41,7 @@ function write(message) {
 
 const args = minimist(process.argv.slice(2));
 const secret = args.secret || 'ssh';
-const roles = createRoles(args._);
+const roles = createRoles(args._, args.clean);
 const model = createModel(roles);
 
 write(`Signing a token for ${chalk.yellow(roles.map(i => `${i.role}@${i.scope}`).join(', '))} with secret ${chalk.gray(secret)}:`);
