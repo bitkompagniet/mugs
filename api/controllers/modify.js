@@ -10,7 +10,7 @@ module.exports = function(store) {
 
 		async function(req, res, next) {
 			try {
-				const result = await store.modify(req.params.id, req.body);
+				const result = await store.modify(req.params.id, req.allowedBody);
 				return res.success(result);
 			} catch (e) {
 				return next(e);
