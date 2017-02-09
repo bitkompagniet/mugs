@@ -13,7 +13,6 @@ const insertUserData = require('../controllers/insert-user-data');
 const getUserData = require('../controllers/get-user-data');
 const removeRole = require('../controllers/remove-role');
 const addRole = require('../controllers/add-role');
-const allowedBodyProperties = require('../middleware/allowed-body-properties');
 
 module.exports = function createRouter(store, config) {
 	const router = express.Router();
