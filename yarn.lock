@@ -1648,11 +1648,11 @@ lodash.restparam@^3.0.0:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/lodash.restparam/-/lodash.restparam-3.6.1.tgz#936a4e309ef330a7645ed4145986c85ae5b20805"
 
-lodash@^4.0.0, lodash@^4.14.0, lodash@^4.16.1, lodash@^4.16.6, lodash@^4.3.0:
+lodash@^4.0.0, lodash@^4.14.0, lodash@^4.16.6, lodash@^4.3.0:
   version "4.16.6"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.16.6.tgz#d22c9ac660288f3843e16ba7d2b5d06cca27d777"
 
-lodash@^4.17.2:
+lodash@^4.16.1, lodash@^4.17.2:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -1679,13 +1679,13 @@ media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
 
-mercutio@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/mercutio/-/mercutio-0.4.3.tgz#0ef0adc18cb013feee6564b87e6c6ae48d129011"
+mercutio@^0.4.4:
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/mercutio/-/mercutio-0.4.5.tgz#700011fc296beede1bdf597f21df650760503432"
   dependencies:
     jsonwebtoken "^7.1.9"
     lodash "^4.17.2"
-    rumor "^1.0.0"
+    rumor "^1.1.0"
 
 merge-descriptors@1.0.1:
   version "1.0.1"
@@ -2317,14 +2317,14 @@ resolve@^1.1.6:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.2.0.tgz#9589c3f2f6149d1417a40becc1663db6ec6bc26c"
 
-respondo@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/respondo/-/respondo-0.5.0.tgz#cbe6902da7e54a01a940392395aeaf8ffdcddd9a"
+respondo@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/respondo/-/respondo-0.5.1.tgz#b6e3b3f9214bfd68aa690336fb703426512ac6bc"
   dependencies:
     js2xmlparser "^2.0.2"
     jsonwebtoken "^7.1.9"
     lodash "^4.16.1"
-    rumor "^1.0.0"
+    rumor "^1.1.0"
 
 restore-cursor@^1.0.1:
   version "1.0.1"
@@ -2345,7 +2345,7 @@ rimraf@2, rimraf@^2.2.8, rimraf@~2.5.1, rimraf@~2.5.4:
   dependencies:
     glob "^7.0.5"
 
-rumor@^1.0.0, rumor@^1.1.0:
+rumor@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/rumor/-/rumor-1.1.0.tgz#2fbc07a74ffef4e199b9883984315bf42e47618f"
   dependencies:
