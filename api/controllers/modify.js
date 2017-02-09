@@ -12,9 +12,6 @@ module.exports = function(store) {
 				const result = await store.modify(req.params.id, req.body);
 				return res.success(result);
 			} catch (e) {
-				console.log(util.inspect(e, {showHidden: true, depth: null }));
-				console.log(e.message.type);
-				console.log(e.message.message);
 				if (e.name === 'AdminEmailChangeError') {
 					return res.failure(e.message);
 				}
