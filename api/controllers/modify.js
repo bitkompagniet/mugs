@@ -13,6 +13,9 @@ module.exports = function(store) {
 				const result = await store.modify(req.params.id, req.allowedBody);
 				return res.success(result);
 			} catch (e) {
+				if (e.name === 'AdminEmailChangeError') {
+					return res.failure(e.message);
+				}
 				return next(e);
 			}
 		},
