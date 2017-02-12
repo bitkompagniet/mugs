@@ -9,7 +9,7 @@ const rumor = require('rumor')('Mugs');
 const config = getConfig(process.env);
 
 if (!config.smtp) {
-	rumor.warn('SMTP has not been specified as ENV, e-mail sending will be supressed.');
+	rumor.warn('SMTP ENV var not set, all e-mails will be DISABLED for this session.');
 }
 
 const store = createStore(config.db);
