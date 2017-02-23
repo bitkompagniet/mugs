@@ -25,10 +25,9 @@ module.exports = function(store) {
 				const confirmRegistrationUrl = urlJoin(appUrl, mountPath, '/register/', result.confirmationToken);
 
 				rumor.debug(`Confirm registration URL: ${confirmRegistrationUrl}`);
-			//	await mail.confirmation(_.merge({}, result.user, req.configuration(), { confirmRegistrationUrl }));
+
 				await mail.confirmation(req.configuration('smtp'), confirmRegistrationUrl, req.configuration('appName'), req.configuration('logoLink'), result.user);
 
-				// const updatedUser = await store.get(user._id);
 				return res.success(result.user);
 			} catch (e) {
 				return next(e);

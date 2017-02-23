@@ -11,6 +11,7 @@ function optional(name, source, defaultValue) {
 module.exports = function(source) {
 	const config = {
 		smtp: optional('smtp', source),
+		senderEmail: optional('senderEmail', source),
 		db: optional('db', source, 'mongodb://localhost:27017/mugs'),
 		secret: optional('secret', source, '868cd71ff515af8ab0ac0f6c312013ef7f8aa73aa5c75bfb767933ddff9d1e9e'),
 		logoLink: optional('logoLink', source, 'http://placehold.it/550x150?size=38&text=[Company%20logo]'),
