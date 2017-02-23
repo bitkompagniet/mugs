@@ -3,12 +3,6 @@ const version = require('../package.json').version;
 const sign = require('./sign');
 const decode = require('./decode');
 
-function output(roles, cmd) {
-	console.log(roles);
-	console.log(cmd);
-	// console.log(cmd.parent.clean);
-}
-
 program
 	.version(version)
 	.option('-c, --clean', 'Suppress default roles when signing a token')
