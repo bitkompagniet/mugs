@@ -11,6 +11,6 @@
     "prefer-arrow-callback": "off",
     "space-before-function-paren": "off",
     "import/no-extraneous-dependencies": [2, { "devDependencies": true }],
-    "no-throw-literal": "off",
+    "no-throw-literal": "off"
   }
 }
