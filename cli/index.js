@@ -41,7 +41,9 @@ function write(message) {
 
 const args = minimist(process.argv.slice(2));
 const secret = args.secret || 'ssh';
-const roles = createRoles(args._, args.clean);
+console.log(args);
+const roleStrings = args.super ? ['*@/'] : args._;
+const roles = createRoles(roleStrings, args.clean || args.super);
 const model = createModel(roles);
 
 write(`Signing a token for ${chalk.yellow(roles.map(i => `${i.role}@${i.scope}`).join(', '))} with secret ${chalk.gray(secret)}:`);
