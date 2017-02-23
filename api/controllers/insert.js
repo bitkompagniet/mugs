@@ -25,7 +25,11 @@ module.exports = function(store) {
 
 				return res.success(userWithRoles);
 			} catch (e) {
-				return next(e);
+				if (e.name === 'ValidationError') {
+					return next(e);
+				}
+
+				return res.failure(e.message);
 			}
 		},
 	];
