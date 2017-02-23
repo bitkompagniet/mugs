@@ -1,9 +1,9 @@
 const jsonwebtoken = require('jsonwebtoken');
 const mercutio = require('mercutio');
-const minimist = require('minimist');
 const tokenExpiry = require('../lib/token-expiry');
 const moment = require('moment');
 const chalk = require('chalk');
+
 const id = 'abcdef0123456789abcdef01';
 
 function createModel(roles) {
@@ -39,15 +39,19 @@ function write(message) {
 	console.log(message); // eslint-disable-line
 }
 
-const args = minimist(process.argv.slice(2));
-const secret = args.secret || 'ssh';
-console.log(args);
-const roleStrings = args.super ? ['*@/'] : args._;
-const roles = createRoles(roleStrings, args.clean || args.super);
-const model = createModel(roles);
+module.exports = function(roles, clean = false, admin = false, secret = 'ssh') {
+	const roleStrings = admin ? ['*@/'] : roles;
+	const formattedRoles = createRoles(roleStrings, clean || admin);
+	const model = createModel(formattedRoles);
 
-write(`Signing a token for ${chalk.yellow(roles.map(i => `${i.role}@${i.scope}`).join(', '))} with secret ${chalk.gray(secret)}:`);
+	write(`Signing a token for ${chalk.yellow(formattedRoles.map(i => `${i.role}@${i.scope}`).join(', '))} with secret ${chalk.gray(secret)}`);
+	
+	write('');
+	write(model);
+	write('');
 
-const token = createToken(model, secret);
-write('');
-write(chalk.green(token));
+	const token = createToken(model, secret);
+
+	write('');
+	write(chalk.green(token));
+};
