@@ -47,7 +47,7 @@ module.exports = function(roles, clean = false, admin = false, secret = 'ssh') {
 	write(`Signing a token for ${chalk.yellow(formattedRoles.map(i => `${i.role}@${i.scope}`).join(', '))} with secret ${chalk.gray(secret)}`);
 	
 	write('');
-	write(model);
+	write(JSON.stringify(model, null, 2));
 	write('');
 
 	const token = createToken(model, secret);
