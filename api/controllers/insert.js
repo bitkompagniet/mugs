@@ -12,7 +12,7 @@ module.exports = function(store) {
 		validateBodyRoleAssignments(),
 		allowedBodyProperties(['email', 'firstname', 'lastname', 'password', 'data', 'roles']),
 
-		async function(req, res) {
+		async function(req, res, next) {
 			try {
 				const user = await store.insert(req.allowedBody);
 				const password = user.password;
@@ -25,7 +25,7 @@ module.exports = function(store) {
 
 				return res.success(userWithRoles);
 			} catch (e) {
-				return res.failure(e.message);
+				return next(e);
 			}
 		},
 	];
