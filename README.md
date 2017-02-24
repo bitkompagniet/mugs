@@ -104,16 +104,19 @@ Given a valid `token`, will confirm the user.
 ```HTTP
 GET /register/:token
 ```
-### Params
 
-| Parameter type | Name | Type |
+### URL params
+
+| Name | Type | Required |
 |---|---|---|
-| URL | `token` | `string` (required) |
+| `token` | `string` | yes |
 
 ### Response codes
 
-- `200`: Confirmation successful
-- `400`: Invalid token
+| Code | Result |
+|---|---|
+| 200 | User confirmed |
+| 400 | Invalid token |
 
 ### Success response
 
@@ -123,22 +126,50 @@ The request will succeed with a redirection to the `redirectConfirmUrl`, appendi
 
 The request will fail with a redirection to the `redirectConfirmUrl`, appending a query string `?success=false&message=[reason]`.
 
-## `POST` /
+## Create user (administratively)
 
 Perform an administrative user creation. Can only be performed by an `admin@users`. Will add the default roles to the user, and result in a confirmed user. A role array can be added, but the user posting will need to be `admin` of each of the scopes in the array.
 
 ### Body
 
-```javascript
-{
-	"email": { type: String, required: true },
-	"password": { type: String, required: true },
-	"firstname": String,
-	"lastname": String,
-	"data": {},
-	"roles": [{
-		role: { type: String, required: true },
-		scope: { type: String, required: true },
-	}],
-}
+| Name | Type | Required | Details |
+|---|---|---|---|
+| `email`     | `string` | yes  | The e-mail / username. |
+| `password`  | `string` | no   | Password for authentication. |
+| `firstname` | `string` | no   | Firstname of user. Do not combine with `fullname`. |
+| `lastname`  | `string` | no   | Lastname of user. Do not combine with `fullname`. |
+| `fullname`  | `string` | no   | Firstname and lastname. Do not combine with the former. |
+| `data`      | `object` | no   | Extra user data. |
+| `roles`     | `array`  | no   | Extra user roles. |
+
+#### The `roles` array
+
+When provided, items in the `roles` array can be given in two formats. Either as an array of role strings (`role@scope`) or as objects:
+
+| Name | Type | Required |
+|---|---|---|---|
+| `role`     | `string` | yes  |
+| `scope`    | `string` | yes  |
+
+The two formats can be mixed in the array.
+
+
+## List users
+
+List users in scopes you are member of.
+
+```http
+GET /
 ```
+
+### Query
+
+| Name | Type | Details |
+|---|---|---|
+| `lte[<field>]`   | `string` | Filter by `field` being less than or equal to value. |
+| `gte[<field>]`   | `string` | Filter by `field` being greater than or equal to value. |
+| `in[<field>]`    | `string` | `field` is equal to value. If given multiple times, match either one. |
+| `match[<field>]` | `string` | Fuzzy match `field` - enable use of `*` and `?`. |
+| `sort[<field>]`  | `int`    | Sort by `field`. `1` for ascending and `-1` for descending. |
+| `skip`           | `int`    | Skip the first *n* results. |
+| `limit`          | `int`    | Return a max of *n* results. Useful for pagination in combination with **skip**. |
