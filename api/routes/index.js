@@ -13,6 +13,7 @@ const insertUserData = require('../controllers/insert-user-data');
 const getUserData = require('../controllers/get-user-data');
 const removeRole = require('../controllers/remove-role');
 const addRole = require('../controllers/add-role');
+const modifyUserData = require('../controllers/modify-user-data');
 
 module.exports = function createRouter(store, config) {
 	const router = express.Router();
@@ -33,6 +34,7 @@ module.exports = function createRouter(store, config) {
 	// User data
 	router.get('/:id/data', getUserData(store));
 	router.post('/:id/data', insertUserData(store));
+	router.put('/:id/data', modifyUserData(store));
 
 	// CRUD
 	router.get('/', list(store));
