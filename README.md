@@ -78,16 +78,16 @@ Perform a new user registration. Will add the default roles to the user, and res
 POST /register
 ```
 
-### Params
+### Body
 
-| Parameter type | Name | Type | Details |
+| Name | Type | Required | Details |
 |---|---|---|---|
-| Body | `email` | `string` (required) | The e-mail / username. |
-| Body | `password` | `string` (required) | Password for authentication. |
-| Body | `firstname` | `string` | Firstname of user. Do not combine with `fullname`. |
-| Body | `lastname` | `string` | Lastname of user. Do not combine with `fullname`. |
-| Body | `fullname` | `string` | Firstname and lastname. Do not combine with the former. |
-| Body | `data` | `object` | Extra user data. |
+| `email`     | `string` | yes  | The e-mail / username. |
+| `password`  | `string` | yes  | Password for authentication. |
+| `firstname` | `string` | no   | Firstname of user. Do not combine with `fullname`. |
+| `lastname`  | `string` | no   | Lastname of user. Do not combine with `fullname`. |
+| `fullname`  | `string` | no   | Firstname and lastname. Do not combine with the former. |
+| `data`      | `object` | no   | Extra user data. |
 
 ### Response codes
 
