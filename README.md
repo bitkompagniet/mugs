@@ -81,7 +81,7 @@ POST /register
 ### Params
 
 | Parameter type | Name | Type | Details |
-|-|-|-|-|
+|---|---|---|---|
 | Body | `email` | `string` (required) | The e-mail / username. |
 | Body | `password` | `string` (required) | Password for authentication. |
 | Body | `firstname` | `string` | Firstname of user. Do not combine with `fullname`. |
@@ -92,7 +92,7 @@ POST /register
 ### Response codes
 
 | Code | Result |
-|-|-|
+|---|---|
 | 200 | Successful registration |
 | 400 | Bad request (wrong format of request payload) |
 | 422 | Validation failure (missing required fields, etc. - details in `error`)
@@ -107,7 +107,7 @@ GET /register/:token
 ### Params
 
 | Parameter type | Name | Type |
-|-|-|-|
+|---|---|---|
 | URL | `token` | `string` (required) |
 
 ### Response codes
