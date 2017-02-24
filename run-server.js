@@ -13,4 +13,4 @@ if (!config.smtp) {
 }
 
 const store = createStore(config.db);
-server(api(store, config));
+server(api(store, config), config.port);

@@ -18,6 +18,7 @@ module.exports = function(source) {
 		appName: optional('appName', source, 'MUGS TEST INSTANCE'),
 		appUrl: optional('appUrl', source, 'http://localhost:3000/'),
 		redirectConfirmUrl: optional('redirectConfirmUrl', source, 'http://localhost:3000/redirect'),
+		port: optional('port', 3000),
 	};
 
 	return config;
