@@ -1,24 +1,42 @@
-# How to run unit tests
+# Mount on API
+
+Add to the project:
 
 ```
-smtp=smtps://username:password@smtp.gmail.com:465 npm test
+npm i --save mugs
 ```
 
-# ENV vars
+Then mount the application:
 
-## Mandatory
+```javascript
+const express = require('express');
+const mugs = require('mugs');
+
+const configuration = {
+	appName: 'My application'
+};
+
+const app = express();
+app.use(mugs(configuration));
+```
+
+# Unit tests
+
+```
+npm test
+```
+
+# Configuration
 
 - `appName`: the application name, shown in e-mail.
 - `appUrl`: the root URL to the application, used to prefix the links sent in e-mails.
 - `db`: mongo URI for the user database.
 - `smtp`: smtps string for sending e-mails.
+- `senderEmail`: e-mail to use as From in system e-mails.
 - `secret`: secret used to issue and verify JWT tokens.
 - `logoLink`: URL to logo displayed in template.
 - `redirectConfirmUrl`: URL used for confirmation redirection. Will receive `success` query param, and `message` on failure.
-
-## Optional
-
-- `rumor`: trace level.
+- `port`: port to start the process on.
 
 # User model
 
@@ -35,7 +53,7 @@ smtp=smtps://username:password@smtp.gmail.com:465 npm test
 	"confirmationToken": MongoId,
 	"confirmed": Date,
 	"resetPasswordToken": MongoId,
-	"roles": [{ role: String, group: String }],
+	"roles": [{ role: String, scope: String }],
 	"data": {},
 }
 ```
@@ -52,34 +70,45 @@ Roles are space-separated roles on the `role@scope` form. `secret` is optional, 
 
 # Endpoints
 
-## `POST` /register
+## User registration
 
 Perform a new user registration. Will add the default roles to the user, and result in an unconfirmed user.
 
-### Body
-
-```javascript
-{
-	"email": { type: String, required: true },
-	"password": { type: String, required: true },
-	"firstname": String,
-	"lastname": String,
-	"data": {},
-}
 ```
-
-### Response codes
-
-- `200`: New user registered
-- `400`: Validation failure
-
-## `GET` /register/:token
-
-Given a valid `token`, will confirm the user.
+POST /register
+```
 
 ### Params
 
-- `token`: the registration token that was e-mailed to the user.
+| Parameter type | Name | Type | Details |
+|-|-|-|-|
+| Body | `email` | `string` (required) | The e-mail / username. |
+| Body | `password` | `string` (required) | Password for authentication. |
+| Body | `firstname` | `string` | Firstname of user. Do not combine with `fullname`. |
+| Body | `lastname` | `string` | Lastname of user. Do not combine with `fullname`. |
+| Body | `fullname` | `string` | Firstname and lastname. Do not combine with the former. |
+| Body | `data` | `object` | Extra user data. |
+
+### Response codes
+
+| Code | Result |
+|-|-|
+| 200 | Successful registration |
+| 400 | Bad request (wrong format of request payload) |
+| 422 | Validation failure (missing required fields, etc. - details in `error`)
+
+## Confirm registration
+
+Given a valid `token`, will confirm the user.
+
+```HTTP
+GET /register/:token
+```
+### Params
+
+| Parameter type | Name | Type |
+|-|-|-|
+| URL | `token` | `string` (required) |
 
 ### Response codes
 
