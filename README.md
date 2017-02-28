@@ -166,10 +166,11 @@ GET /
 
 | Name | Type | Details |
 |---|---|---|
+| `role`           | `string` | Filter by users being in role.  It is still required that the requested user can view
 | `lte[<field>]`   | `string` | Filter by `field` being less than or equal to value. |
 | `gte[<field>]`   | `string` | Filter by `field` being greater than or equal to value. |
 | `in[<field>]`    | `string` | `field` is equal to value. If given multiple times, match either one. |
 | `match[<field>]` | `string` | Fuzzy match `field` - enable use of `*` and `?`. |
-| `sort[<field>]`  | `int`    | Sort by `field`. `1` for ascending and `-1` for descending. |
+| `sort[<field>]`  | `int`    | Sort by `field`. `1` for ascending and `-1` for descending. Can be given multiple times. First defined, first in sort order. |
 | `skip`           | `int`    | Skip the first *n* results. |
 | `limit`          | `int`    | Return a max of *n* results. Useful for pagination in combination with **skip**. |

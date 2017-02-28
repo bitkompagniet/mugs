@@ -3,6 +3,7 @@ const mercutio = require('mercutio');
 const tokenExpiry = require('../lib/token-expiry');
 const moment = require('moment');
 const chalk = require('chalk');
+const copyPaste = require('copy-paste');
 
 const id = 'abcdef0123456789abcdef01';
 
@@ -45,7 +46,7 @@ module.exports = function(roles, clean = false, admin = false, secret = 'ssh') {
 	const model = createModel(formattedRoles);
 
 	write(`Signing a token for ${chalk.yellow(formattedRoles.map(i => `${i.role}@${i.scope}`).join(', '))} with secret ${chalk.gray(secret)}`);
-	
+
 	write('');
 	write(JSON.stringify(model, null, 2));
 	write('');
@@ -54,4 +55,7 @@ module.exports = function(roles, clean = false, admin = false, secret = 'ssh') {
 
 	write('');
 	write(chalk.green(token));
+	write('');
+
+	copyPaste.copy(token, () => write('Token has been copied to clipboard.'));
 };
