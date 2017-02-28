@@ -18,6 +18,9 @@ module.exports = function(store) {
 
 				return res.success(userWithRoles);
 			} catch (e) {
+				if (e.name === 'MongoError' && e.code === 11000) {
+					return res.failure('User already exists.', 409);
+				}
 				return res.failure(e.message);
 			}
 		},

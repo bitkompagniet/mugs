@@ -30,6 +30,9 @@ module.exports = function(store) {
 				// const updatedUser = await store.get(user._id);
 				return res.success(result.user);
 			} catch (e) {
+				if (e.name === 'MongoError' && e.code === 11000) {
+					return res.failure('User already exists.', 409);
+				}
 				return next(e);
 			}
 		},
