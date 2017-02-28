@@ -34,7 +34,7 @@ module.exports = function (uri) {
 	store.configureDefaultRoles = id => models.users.configureDefaultRoles(id);
 	store.modifyUserData = (id, data) => models.users.modifyUserData(id, data);
 
-	initialize(store);
+	store.initialized = initialize(store);
 
 	return store;
 };

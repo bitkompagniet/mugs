@@ -21,7 +21,6 @@ module.exports = function(store) {
 				await store.configureDefaultRoles(user._id);
 				const userWithRoles = await store.get(user._id);
 
-				console.log(req.configuration());
 				await mail.sendPassword(req.configuration('smtp'), password, req.configuration('appName'), req.configuration('appUrl'), req.configuration('logoLink'), user);
 
 				return res.success(userWithRoles);

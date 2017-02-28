@@ -15,21 +15,18 @@ chai.use(chaiAsPromised);
 
 describe('api', function () {
 	this.timeout(300000);
-	let serverInstance;
 
-	before(async () => {
-		await store.reset();
+	const configuration = _.merge({}, {
+		secret: 'ssh',
+		appUrl: 'http://test.site',
+		appName: 'Mugs Unit Tests',
+		logoLink: 'http://unity-coding.slashgames.org/wp-content/uploads/unit-test.jpg',
+		redirectConfirmUrl: 'http://test.site/confirm',
+	}, process.env);
 
-		const configuration = _.merge({}, {
-			secret: 'ssh',
-			appUrl: 'http://test.site',
-			appName: 'Mugs Unit Tests',
-			logoLink: 'http://unity-coding.slashgames.org/wp-content/uploads/unit-test.jpg',
-			redirectConfirmUrl: 'http://test.site/confirm',
-		}, process.env);
+	const serverInstance = server(api(store, configuration));
 
-		serverInstance = server(api(store, configuration));
-	});
+	before(store.reset);
 
 	const clientBaseSettings = {
 		baseURL: 'http://localhost:3000',
