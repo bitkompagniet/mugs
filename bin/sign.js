@@ -31,9 +31,9 @@ function createRoles(roles, suppressUserRoles = false) {
 }
 
 function createToken(model, secret) {
-	const expiry = tokenExpiry({ years: 3 });
+	const expiry = tokenExpiry({ years: 50 });
 	console.log(chalk.yellow(`This token will expire at ${moment(expiry).format('DD-MM-YYYY HH:mm:ss')}`));
-	return jsonwebtoken.sign(Object.assign(model, { exp: tokenExpiry({ days: 7 }) }), secret);
+	return jsonwebtoken.sign(Object.assign(model, { exp: expiry }), secret);
 }
 
 function write(message) {
