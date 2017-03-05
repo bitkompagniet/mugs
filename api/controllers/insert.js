@@ -10,7 +10,7 @@ module.exports = function(store) {
 		validateBodyRoleAssignments(),
 		allowedBodyProperties(['email', 'firstname', 'lastname', 'password', 'data', 'roles']),
 
-		async function(req, res) {
+		async function(req, res, next) {
 			try {
 				const user = await store.insert(req.allowedBody);
 				await store.configureDefaultRoles(user._id);
@@ -21,7 +21,8 @@ module.exports = function(store) {
 				if (e.name === 'MongoError' && e.code === 11000) {
 					return res.failure('User already exists.', 409);
 				}
-				return res.failure(e.message);
+
+				return next(e);
 			}
 		},
 	];
