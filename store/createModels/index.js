@@ -41,7 +41,8 @@ module.exports = function (db) {
 			role: String,
 			scope: String,
 		}],
-		data: {},
+		failedAttempts: { type: Number, default: 0 },
+		locked: { type: Date, default: null },
 	}, {
 		toJSON: {
 			virtuals: true,

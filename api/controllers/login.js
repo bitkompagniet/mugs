@@ -16,6 +16,10 @@ module.exports = function(store) {
 
 			return res.success(token);
 		} catch (e) {
+			if (e.Error === 'LockError') {
+				res.set('Retry-After', e.retry);
+				return res.failure('To many attempts.', 429);
+			}
 			return res.failure('Invalid credentials.', 401);
 		}
 	};
