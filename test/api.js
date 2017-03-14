@@ -112,11 +112,12 @@ describe('api', function () {
 	});
 
 	describe('PUT /me', function() {
-		it('should modify user object only in the whitelisted fields', async function() {
+		it('should modify user object only in whitelisted fields', async function() {
 			const c = await authClient();
-			const payload = await c.put('/me', { lastname: 'Jensen' });
+			const payload = await c.put('/me', { lastname: 'Jensen', created: 'blabla' });
 			const modifiedUser = await c.get(`/${payload.data.result._id}`);
 			modifiedUser.data.result.lastname.should.equal('Jensen');
+			modifiedUser.data.result.created.should.not.equal('blabla');
 		});
 	});
 
