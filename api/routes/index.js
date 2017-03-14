@@ -14,13 +14,14 @@ const getUserData = require('../controllers/get-user-data');
 const removeRole = require('../controllers/remove-role');
 const addRole = require('../controllers/add-role');
 const modifyUserData = require('../controllers/modify-user-data');
+const modifyMe = require('../controllers/modify-me');
 
 module.exports = function createRouter(store, config) {
 	const router = express.Router();
 
 	// Me
 	router.get('/me', me(store, config.secret));
-
+	router.put('/me', modifyMe(store, config.secret));
 	// Registration
 	router.post('/register', register(store));
 	router.get('/register/:token', confirmRegister(store));
