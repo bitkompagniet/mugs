@@ -33,7 +33,7 @@ module.exports = function (uri) {
 	store.getUserData = id => models.users.getUserData(id);
 	store.configureDefaultRoles = id => models.users.configureDefaultRoles(id);
 	store.modifyUserData = (id, data) => models.users.modifyUserData(id, data);
-
+	store.changePassword = (id, body) => models.users.changePassword(id, body);
 	store.initialized = initialize(store);
 
 	return store;
