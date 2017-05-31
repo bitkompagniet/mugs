@@ -1,21 +1,17 @@
 const passwordHash = require('../util/passwordHash');
 
-module.exports = async function(id, body) {
-	try {
-		const user = await this.findById(id);
-		if (passwordHash(body.current) === user.password) {
-			if (body.new === body.repeated) {
-				user.password = body.new;
-				const err = await user.validateSync();
-				if (err) throw new Error(err);
-				await user.save();
-			} else {
-				throw new Error('Repeated password was incorrect.');
-			}
+module.exports = async function(id, password, repeated, newPassword) {
+	const user = await this.findById(id);
+	if (passwordHash(password) === user.password) {
+		if (password === repeated) {
+			user.password = newPassword;
+			const err = await user.validateSync();
+			if (err) throw new Error(err);
+			await user.save();
 		} else {
-			throw new Error('Entered password was incorrect.');
+			throw new Error('Repeated password was incorrect.');
 		}
-	} catch (e) {
-		throw new Error(e);
+	} else {
+		throw new Error('Entered password was incorrect.');
 	}
 };
