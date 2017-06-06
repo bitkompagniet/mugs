@@ -57,6 +57,16 @@ describe('store', function () {
 				});
 		});
 
+		it('should not be possible to modify more fields than registration allows', function() {
+			return store.reset()
+				.then(() => createUser())
+				.then(user => store.modify(user._id, Object.assign(user, { roles: 'test1234' })))
+				.then((res) => {
+					res.should.have.property('roles').that.that.is.a('array');
+					res.should.have.property('roles').that.should.not.equal('test1234');
+				});
+		});
+
 		it('should fail when we try to update a user that does not exist', function() {
 			return store.reset()
 				.then(() => store.modify({ _id: '123', fullname: 'Alice ' }))
