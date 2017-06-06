@@ -15,6 +15,7 @@ const removeRole = require('../controllers/remove-role');
 const addRole = require('../controllers/add-role');
 const modifyUserData = require('../controllers/modify-user-data');
 const modifyMe = require('../controllers/modify-me');
+const changePassword = require('../controllers/change-password');
 
 module.exports = function createRouter(store, config) {
 	const router = express.Router();
@@ -22,6 +23,7 @@ module.exports = function createRouter(store, config) {
 	// Me
 	router.get('/me', me(store, config.secret));
 	router.put('/me', modifyMe(store, config.secret));
+	router.put('/me/password', changePassword(store));
 	// Registration
 	router.post('/register', register(store));
 	router.get('/register/:token', confirmRegister(store));

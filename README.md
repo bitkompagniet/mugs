@@ -174,3 +174,41 @@ GET /
 | `sort[<field>]`  | `int`    | Sort by `field`. `1` for ascending and `-1` for descending. Can be given multiple times. First defined, first in sort order. |
 | `skip`           | `int`    | Skip the first *n* results. |
 | `limit`          | `int`    | Return a max of *n* results. Useful for pagination in combination with **skip**. |
+
+
+## Retrieve body of logged in user
+Get body of logged in user. Requires a jwt token in either the cookies or the header.
+```
+GET /me
+```
+### Response codes
+| Code | Result |
+|---|---|
+| 200 | Confirmed |
+| 400 | Invalid token |
+
+
+
+## Modify a user
+Modify given user.
+```
+PUT /:id
+```
+### Body
+| Name | Type | Details |
+|---|---|---|---|
+| `email`     | `string` | The e-mail / username. |
+| `password`  | `string` | Password for authentication. |
+| `firstname` | `string` | Firstname of user. Do not combine with `fullname`. |
+| `lastname`  | `string` | Lastname of user. Do not combine with `fullname`. |
+| `fullname`  | `string` | Firstname and lastname. Do not combine with the former. |
+
+ - To modify a users role you use POST /:id/roles
+ - To modify a users data you use POST /:id/data
+
+ ### Response codes
+| Code | Result |
+|---|---|
+| 200 | Confirmed |
+| 400 | Invalid token |
+| 403 | Permission denied |
