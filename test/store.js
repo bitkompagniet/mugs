@@ -12,7 +12,7 @@ chai.use(chaiAsPromised);
 
 describe('store', function () {
 	this.timeout(20000);
-	before(() => store.reset());
+	before(store.reset);
 
 	const testUsers = [
 		{ email: 'bob@bitkompagniet.dk', fullname: 'Bob Doe', password: '123' },
@@ -83,7 +83,7 @@ describe('store', function () {
 		it('should silently ignore an attempt to set roles in a modify action', function() {
 			return store.reset()
 				.then(() => createUser())
-				.then(user => store.modify(Object.assign(user, { roles: ['user-manager'] })))
+				.then(user => store.modify(user._id, Object.assign(user, { roles: ['user-manager'] })))
 				.should.be.fulfilled
 				.then((res) => {
 					res.roles.should.have.length(2);

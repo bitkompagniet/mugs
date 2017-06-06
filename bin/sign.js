@@ -1,9 +1,10 @@
 const jsonwebtoken = require('jsonwebtoken');
 const mercutio = require('mercutio');
-const minimist = require('minimist');
 const tokenExpiry = require('../lib/token-expiry');
 const moment = require('moment');
 const chalk = require('chalk');
+const copyPaste = require('copy-paste');
+
 const id = 'abcdef0123456789abcdef01';
 
 function createModel(roles) {
@@ -30,22 +31,31 @@ function createRoles(roles, suppressUserRoles = false) {
 }
 
 function createToken(model, secret) {
-	const expiry = tokenExpiry({ days: 7 });
+	const expiry = tokenExpiry({ years: 50 });
 	console.log(chalk.yellow(`This token will expire at ${moment(expiry).format('DD-MM-YYYY HH:mm:ss')}`));
-	return jsonwebtoken.sign(Object.assign(model, { exp: tokenExpiry({ days: 7 }) }), secret);
+	return jsonwebtoken.sign(Object.assign(model, { exp: expiry }), secret);
 }
 
 function write(message) {
 	console.log(message); // eslint-disable-line
 }
 
-const args = minimist(process.argv.slice(2));
-const secret = args.secret || 'ssh';
-const roles = createRoles(args._, args.clean);
-const model = createModel(roles);
+module.exports = function(roles, clean = false, admin = false, secret = 'ssh') {
+	const roleStrings = admin ? ['*@/'] : roles;
+	const formattedRoles = createRoles(roleStrings, clean || admin);
+	const model = createModel(formattedRoles);
 
-write(`Signing a token for ${chalk.yellow(roles.map(i => `${i.role}@${i.scope}`).join(', '))} with secret ${chalk.gray(secret)}:`);
+	write(`Signing a token for ${chalk.yellow(formattedRoles.map(i => `${i.role}@${i.scope}`).join(', '))} with secret ${chalk.gray(secret)}`);
 
-const token = createToken(model, secret);
-write('');
-write(chalk.green(token));
+	write('');
+	write(JSON.stringify(model, null, 2));
+	write('');
+
+	const token = createToken(model, secret);
+
+	write('');
+	write(chalk.green(token));
+	write('');
+
+	copyPaste.copy(token, () => write('Token has been copied to clipboard.'));
+};

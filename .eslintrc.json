@@ -10,6 +10,7 @@
     "no-tabs": "off",
     "prefer-arrow-callback": "off",
     "space-before-function-paren": "off",
-    "import/no-extraneous-dependencies": [2, { "devDependencies": true }]
+    "import/no-extraneous-dependencies": [2, { "devDependencies": true }],
+    "no-throw-literal": "off"
   }
 }

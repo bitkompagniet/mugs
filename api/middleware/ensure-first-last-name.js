@@ -8,14 +8,13 @@ module.exports = function() {
 			}
 
 			const split = req.body.fullname.split(' ').filter(i => _.isString(i) && !_.isEmpty(i));
-			const firstnameArray = split.slice(0, -1);
 
-			req.body.firstname = '';
-			firstnameArray.forEach(function(name) {
-				req.body.firstname += `${name} `;
-			});
-			req.body.firstname = req.body.firstname.substring(0, req.body.firstname.length - 1);
-			req.body.lastname = split.slice(-1);
+			if (split.length <= 1) {
+				return res.failure('When setting a fullname, more than one name is required.');
+			}
+
+			req.body.firstname = split.slice(0, -1).join(' ');
+			req.body.lastname = split[split.length - 1];
 			delete req.body.fullname;
 		}
 

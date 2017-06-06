@@ -32,8 +32,9 @@ module.exports = function (uri) {
 	store.insertUserData = (id, data) => models.users.insertUserData(id, data, models);
 	store.getUserData = id => models.users.getUserData(id);
 	store.configureDefaultRoles = id => models.users.configureDefaultRoles(id);
-
-	initialize(store);
+	store.modifyUserData = (id, data) => models.users.modifyUserData(id, data);
+	store.changePassword = (id, password, repeated, newPassword) => models.users.changePassword(id, password, repeated, newPassword);
+	store.initialized = initialize(store);
 
 	return store;
 };
