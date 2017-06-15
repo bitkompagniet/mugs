@@ -6,7 +6,7 @@ module.exports = async function(email, password) {
 	const user = await this.findOne({ email });// the user has to be checked for locked whether the password was correct or not.
 
 	if (user.locked && moment().isBefore(user.locked)) {
-		throw { Error: 'LockError', retry: user.locked };
+		throw { name: 'LockError', retry: user.locked };
 	}
 
 	if (user.password === hash) {
@@ -18,6 +18,8 @@ module.exports = async function(email, password) {
 
 	const time = 250 * user.failedAttempts;
 	const lockedTill = moment().add(time, 'ms');
-	await this.findOneAndUpdate({ email }, { $set: { failedAttempts: user.failedAttempts + 1, locked: lockedTill } });
+	user.failedAttempts += 1;
+	user.locked = lockedTill;
+	user.save();
 	throw new Error('Wrong e-mail or password');
 };

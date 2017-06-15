@@ -1,5 +1,6 @@
 const jsonwebtoken = require('jsonwebtoken');
 const tokenExpiry = require('../../lib/token-expiry');
+const moment = require('moment');
 
 module.exports = function(store) {
 	return async function(req, res) {
@@ -16,9 +17,9 @@ module.exports = function(store) {
 
 			return res.success(token);
 		} catch (e) {
-			if (e.Error === 'LockError') {
-				res.set('Retry-After', e.retry);
-				return res.failure('To many attempts.', 429);
+			if (e.name === 'LockError') {
+				res.set('Retry-After', moment(e.retry).toISOString());
+				return res.failure('Login have been locked for a short cooldown period due to failed login attempts.', 429);
 			}
 			return res.failure('Invalid credentials.', 401);
 		}
