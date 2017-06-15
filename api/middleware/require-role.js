@@ -9,7 +9,7 @@ module.exports = function(roleResolver) {
 			return res.failure('You are not authenticated.', 401);
 		}
 
-		if (role && !req.identity.is(role)) {
+		if (role && !req.identity.roles.is(role)) {
 			rumor.info(`Permission denied for ${req.identity.user.email}. Needed ${role}.`);
 			return res.failure('You do not have the appropriate permissions to perform this action.', 403);
 		}

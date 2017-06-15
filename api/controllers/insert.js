@@ -10,7 +10,7 @@ module.exports = function(store) {
 		requireUserAdmin(),
 		ensureFirstLastname(),
 		validateBodyRoleAssignments(),
-		allowedBodyProperties(['email', 'firstname', 'lastname', 'password', 'data', 'roles']),
+		allowedBodyProperties(['email', 'firstname', 'lastname', 'password', 'data', 'roles', 'role']),
 
 		async function(req, res, next) {
 			try {

@@ -141,6 +141,10 @@ describe('api', function () {
 			payload.data.success.should.be.ok;
 			should.exist(payload.data.result.confirmed);
 		});
+
+		it('should be able to post roles with the user creation', async function() {
+
+		});
 	});
 
 	describe('GET /:id', function() {
