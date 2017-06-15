@@ -19,6 +19,5 @@ module.exports = function(store) {
 				return next(e);
 			}
 		},
-
 	];
 };
