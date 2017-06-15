@@ -142,8 +142,13 @@ describe('api', function () {
 			should.exist(payload.data.result.confirmed);
 		});
 
-		it('should be able to post roles with the user creation', async function() {
-
+		it('should be able to post both roles with and without scope with the created user (both in the form of an object and a string)', async function() {
+			const c = await authClient();
+			const payload = await c.post('/', { email: 'test2@test.dk', password: 'hest', roles: ['sag', 'sag@uh', { role: 'yoo' }, { role: 'yoo', scope: 'hmm' }] });
+			console.log(payload.data.result.roles)
+			should.exist(payload.data.result.roles);
+			const id = payload.data.result.id;
+			payload.data.result.roles.length.should.equal(6);
 		});
 	});
 

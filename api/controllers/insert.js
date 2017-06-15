@@ -9,8 +9,8 @@ module.exports = function(store) {
 	return [
 		requireUserAdmin(),
 		ensureFirstLastname(),
-		validateBodyRoleAssignments(),
-		allowedBodyProperties(['email', 'firstname', 'lastname', 'password', 'data', 'roles', 'role']),
+		// validateBodyRoleAssignments(),
+		allowedBodyProperties(['email', 'firstname', 'lastname', 'password', 'data', 'roles']),
 
 		async function(req, res, next) {
 			try {
