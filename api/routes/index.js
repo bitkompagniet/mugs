@@ -22,6 +22,7 @@ module.exports = function createRouter(store, config) {
 	// Me
 	router.get('/me', me(store, config.secret));
 	router.put('/me/password', changePassword(store));
+
 	// Registration
 	router.post('/register', register(store));
 	router.get('/register/:token', confirmRegister(store));

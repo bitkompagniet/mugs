@@ -141,6 +141,13 @@ describe('api', function () {
 			payload.data.success.should.be.ok;
 			should.exist(payload.data.result.confirmed);
 		});
+
+		it('should be able to post both roles with and without scope with the created user (both in the form of an object and a string)', async function() {
+			const c = await authClient();
+			const payload = await c.post('/', { email: 'test2@test.dk', password: 'hest', roles: ['sag', 'sag@uh', { role: 'yoo' }, { role: 'yoo', scope: 'hmm' }] });
+			should.exist(payload.data.result.roles);
+			payload.data.result.roles.length.should.equal(6);
+		});
 	});
 
 	describe('GET /:id', function() {
