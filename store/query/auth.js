@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const passwordHash = require('../util/passwordHash');
 
 module.exports = async function(email, password) {
