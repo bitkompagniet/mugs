@@ -19,6 +19,7 @@ module.exports = function(source) {
 		appUrl: optional('appUrl', source, 'http://localhost:3000/'),
 		redirectConfirmUrl: optional('redirectConfirmUrl', source, 'http://localhost:3000/redirect'),
 		port: optional('port', 3000),
+		unconfirmedLogins: optional('unconfirmedLogins', source, true),
 	};
 
 	return config;
