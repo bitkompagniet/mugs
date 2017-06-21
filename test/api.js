@@ -119,6 +119,15 @@ describe('api', function () {
 			modifiedUser.data.result.lastname.should.equal('Jensen');
 			modifiedUser.data.result.created.should.not.equal('blabla');
 		});
+
+		it('should not allow me to modify my own roles', async function() {
+			const user = await client.post('/register', { email: 'scopetest@putme.com', password: 'test' });
+			user.data.success.should.be.ok;
+			const loggedInClient = await loginClient('scopetest@putme.com', 'test');
+			const payload = await loggedInClient.put('/me', { roles: ['admin@somescope'] });
+			payload.data.success.should.be.ok;
+			payload.data.result.roles.filter(r => r.scope === 'somescope').should.have.length(0);
+		});
 	});
 
 	describe('GET /verify/:token', function() {
@@ -157,6 +166,13 @@ describe('api', function () {
 			const payload = await c.post('/', { email: 'test2@test.dk', password: 'hest', roles: ['sag', 'sag@uh', { role: 'yoo' }, { role: 'yoo', scope: 'hmm' }] });
 			should.exist(payload.data.result.roles);
 			payload.data.result.roles.length.should.equal(6);
+		});
+
+		it('should not allow a normal user admin to assign roles outside his scope', async function() {
+			const c = await authClient();
+			let payload = await c.post('/', { email: 'regularuseradmin@postmugs.info', password: 'hest', roles: ['admin@somescope'] });
+			payload.data.success.should.not.be.ok;
+			payload.data.result.roles.filter(r => r.scope === 'somescope').should.have.length(0);
 		});
 	});
 
