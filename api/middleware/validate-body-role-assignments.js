@@ -12,7 +12,7 @@ module.exports = function() {
 
 		if (Array.isArray(addExtraRoles)) {
 			for (const role of addExtraRoles) {
-				if (!req.identity.is({ role: 'admin', scope: role.scope })) {
+				if (!req.identity.roles.is({ role: 'admin', scope: role.scope })) {
 					return res.failure(`User lacked admin role of scope ${role.scope}, and could not post a user with these roles.`);
 				}
 			}

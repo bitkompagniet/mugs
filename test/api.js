@@ -172,7 +172,8 @@ describe('api', function () {
 			const c = await authClient();
 			let payload = await c.post('/', { email: 'regularuseradmin@postmugs.info', password: 'hest', roles: ['admin@somescope'] });
 			payload.data.success.should.not.be.ok;
-			payload.data.result.roles.filter(r => r.scope === 'somescope').should.have.length(0);
+			const roles = payload.data.result.roles.filter(r => r.scope === 'somescope');
+			should.have.length(0)(roles);
 		});
 	});
 
