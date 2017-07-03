@@ -170,10 +170,10 @@ describe('api', function () {
 
 		it('should not allow a normal user admin to assign roles outside his scope', async function() {
 			const c = await authClient();
-			let payload = await c.post('/', { email: 'regularuseradmin@postmugs.info', password: 'hest', roles: ['admin@somescope'] });
+			await c.post('/', { email: 'userAdmin@mugs.info', password: 'hest', roles: ['*@users'] });
+			const userAdmin = await loginClient('userAdmin@mugs.info', 'hest');
+			const payload = await userAdmin.post('/', { email: 'regularuseradmin@postmugs.info', password: 'hest', roles: ['admin@somescope'] });
 			payload.data.success.should.not.be.ok;
-			const roles = payload.data.result.roles.filter(r => r.scope === 'somescope');
-			should.have.length(0)(roles);
 		});
 	});
 
