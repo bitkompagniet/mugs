@@ -10,9 +10,9 @@
     "test": "test"
   },
   "scripts": {
-    "production": "node --harmony-async-await run-server.js",
-    "test": "./node_modules/.bin/mocha --harmony-async-await",
-    "start": "nodemon --harmony-async-await run-server.js",
+    "production": "node run-server.js",
+    "test": "./node_modules/.bin/mocha",
+    "start": "nodemon run-server.js",
     "sign": "node cli/index.js"
   },
   "repository": {
@@ -29,11 +29,12 @@
     "body-parser": "^1.15.2",
     "chalk": "^1.1.3",
     "commander": "^2.9.0",
+    "copy-paste": "^1.3.0",
     "express": "^4.14.0",
     "handlebars": "^4.0.6",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.16.6",
-    "mercutio": "^0.4.4",
+    "mercutio": "^1.0.0",
     "moment": "^2.16.0",
     "mongoose": "^4.6.5",
     "nodemailer": "^2.6.4",
@@ -41,8 +42,7 @@
     "respondo": "^0.5.1",
     "rumor": "^1.1.0",
     "url-join": "^1.1.0",
-    "validator": "^6.1.0",
-    "copy-paste": "^1.3.0"
+    "validator": "^6.1.0"
   },
   "devDependencies": {
     "axios": "^0.15.2",

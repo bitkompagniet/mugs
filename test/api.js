@@ -162,6 +162,13 @@ describe('api', function () {
 			payload.data.success.should.be.ok;
 			should.exist(payload.data.result.confirmed);
 		});
+
+		it('should be able to post both roles with and without scope with the created user (both in the form of an object and a string)', async function() {
+			const c = await authClient();
+			const payload = await c.post('/', { email: 'test2@test.dk', password: 'hest', roles: ['sag', 'sag@uh', { role: 'yoo' }, { role: 'yoo', scope: 'hmm' }] });
+			should.exist(payload.data.result.roles);
+			payload.data.result.roles.length.should.equal(6);
+		});
 	});
 
 	describe('GET /:id', function() {
@@ -204,6 +211,52 @@ describe('api', function () {
 			me.roles.should.have.length(2);
 			payload = await c.post(`/${id}/roles`, { role: 'editor', scope: 'websites' });
 			payload.data.success.should.not.be.ok;
+		});
+	});
+
+	describe('PUT /me/password', function() {
+		it('should succeed and only respond to the new password when input is correct', async function() {
+			let payload = await client.post('/register', { email: 'k@k.dk', password: 'hest' });
+			payload.data.success.should.be.ok;
+			let login = await client.post('/login', { email: 'k@k.dk', password: 'hest' });
+			login.data.success.should.be.ok;
+
+			const clientWithUser = await loginClient('k@k.dk', 'hest');
+			payload = await clientWithUser.put('/me/password', { password: 'hest', repeated: 'hest', new: 'changed' });
+
+			login = await client.post('/login', { email: 'k@k.dk', password: 'hest' });
+			login.data.success.should.not.be.ok;
+
+			login = await client.post('/login', { email: 'k@k.dk', password: 'changed' });
+			login.data.success.should.be.ok;
+		});
+
+		it('should fail when old password was wrong', async function() {
+			let payload = await client.post('/register', { email: 'fail@repeated.dk', password: 'hest' });
+			payload.data.success.should.be.ok;
+
+			const clientWithUser = await loginClient('fail@repeated.dk', 'hest');
+
+			payload = await clientWithUser.put('/me/password', { password: 'hest2', repeated: 'hest2', new: 'changed' });
+			payload.data.success.should.not.be.ok;
+
+			const login = await client.post('/login', { email: 'fail@repeated.dk', password: 'changed' });
+			login.data.success.should.not.be.ok;
+			login.data.code.should.equal(401);
+		});
+
+		it('should fail when repeated password was wrong', async function() {
+			let payload = await client.post('/register', { email: 'fail@repeated.dk', password: 'hest' });
+			payload.data.success.should.be.ok;
+
+			const clientWithUser = await loginClient('fail@repeated.dk', 'hest');
+
+			payload = await clientWithUser.put('/me/password', { password: 'hest', repeated: 'hest2', new: 'changed' });
+			payload.data.success.should.not.be.ok;
+
+			const login = await client.post('/login', { email: 'fail@repeated.dk', password: 'changed' });
+			login.data.success.should.not.be.ok;
+			login.data.code.should.equal(401);
 		});
 	});
 
