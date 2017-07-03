@@ -15,6 +15,8 @@ const removeRole = require('../controllers/remove-role');
 const addRole = require('../controllers/add-role');
 const modifyUserData = require('../controllers/modify-user-data');
 const changePassword = require('../controllers/change-password');
+const recovery = require('../controllers/recovery');
+const confirmRecovery = require('../controllers/confirmRecovery');
 
 module.exports = function createRouter(store, config) {
 	const router = express.Router();
@@ -31,6 +33,10 @@ module.exports = function createRouter(store, config) {
 	router.post('/login', login(store));
 
 	// Password recovery
+	router.get('/recovery/:email', recovery(store, config));
+	router.post('/recovery/:token', confirmRecovery(store));
+
+
 	router.get('/verify/:token', verify());
 
 	// User data

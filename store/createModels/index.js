@@ -21,6 +21,7 @@ const deleteUser = require('../query/delete');
 const configureDefaultRoles = require('../query/configure-default-roles');
 const modifyUserData = require('../query/modify-user-data');
 const changePassword = require('../query/change-password');
+const changePasswordWithRecovery = require('../query/changePasswordWithRecovery');
 
 
 const Schema = mongoose.Schema;
@@ -83,6 +84,7 @@ module.exports = function (db) {
 	userSchema.statics.configureDefaultRoles = configureDefaultRoles;
 	userSchema.statics.modifyUserData = modifyUserData;
 	userSchema.statics.changePassword = changePassword;
+	userSchema.statics.changePasswordWithRecovery = changePasswordWithRecovery;
 
 	return {
 		users: db.model('User', userSchema),
