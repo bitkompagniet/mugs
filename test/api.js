@@ -36,6 +36,10 @@ describe('api', function () {
 		validateStatus: () => true,
 	};
 
+	function timeout(ms) {
+    	return new Promise(resolve => setTimeout(resolve, ms));
+	}
+
 	const client = axios.create(clientBaseSettings);
 
 	const getData = data => data.data;
@@ -75,6 +79,23 @@ describe('api', function () {
 					should.exist(data.error);
 					data.error.should.contain('Invalid');
 				});
+		});
+		it('should reject too many requests', async function() {
+			for (let i = 0; i < 6; i += 1) {
+				await client
+				.post('/login', { email: 'admin@mugs.info', password: '1234' })
+				.then(getData)
+				.then((data) => {
+					if (i > 5) { // checking after 5 tries since it depends how long time the request take to process.
+						data.code.should.equal(429);
+						should.exist(data.error);
+						data.error.should.contain('locked');
+					}
+				});
+			}
+			console.log('Waiting for cooldown...');
+			await timeout(3000);
+			console.log('Continuing.');
 		});
 	});
 
