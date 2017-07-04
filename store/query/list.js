@@ -30,22 +30,45 @@ function gteQuery(gteObject = {}) {
 	return _.mapValues(gteObject, value => ({ $gte: value }));
 }
 
-function roleQuery(roles) {
-	if (!roles) return {};
+function roleQuery(requestingUserRoles, roleQuery) {
+	if (!requestingUserRoles) return {};
+	const m = mercutio(requestingUserRoles);
 
-	const m = mercutio(roles);
 
 	if (m.is('member@/')) return {};
 
 	const scopeQuery = m
 		.rationalize()
 		.toArray()
-		.filter(role => ['*', 'admin', 'member'].includes(role.role))
+		.filter(role => ['*', 'member'].includes(role.role))
 		.map(role => ({ scope: new RegExp(`^${role.scope}`, 'i') }));
+
 
 	const publicQuery = [{ scope: 'public' }];
 	const fullOrQuery = publicQuery.concat(scopeQuery);
-	const query = { roles: { $elemMatch: { $or: fullOrQuery } } };
+	let query;
+	if (rolesQuery) {
+		query = { roles: { $elemMatch: { $or: fullOrQuery } } };
+	} else {
+		query = {
+			roles: {
+				$elemMatch: {
+					$and: [
+						{
+							role: roleQuery,
+							scope: '',
+						},
+						{
+							$or: fullOrQuery,
+						}
+					]
+
+
+					},
+				},
+			},
+		};
+	}
 
 	return query;
 }
