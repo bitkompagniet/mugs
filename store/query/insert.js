@@ -1,5 +1,6 @@
 const passwordGenerator = require('password-generator');
 const _ = require('lodash');
+const salt = require('../util/salt');
 
 function sortRoles(roles) {
 	const rolesWithoutScope = [];
@@ -26,7 +27,9 @@ function sortRoles(roles) {
 module.exports = async function(body) {
 	let rolesWithoutScope;
 	let rolesWithScope;
+	body.salt = salt();
 	body.password = (body.password) ? body.password : passwordGenerator(8);
+	body.password += body.salt;
 	if (body.roles) {
 		const sortedRoles = sortRoles(body.roles);
 		rolesWithoutScope = sortedRoles.rolesWithoutScope;

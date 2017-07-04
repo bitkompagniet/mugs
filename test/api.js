@@ -198,6 +198,7 @@ describe('api', function () {
 			let payload = await client.post('/register', { email: 'k@k.dk', password: 'hest' });
 			payload.data.success.should.be.ok;
 			let login = await client.post('/login', { email: 'k@k.dk', password: 'hest' });
+			console.log(login.data);
 			login.data.success.should.be.ok;
 
 			const clientWithUser = await loginClient('k@k.dk', 'hest');
