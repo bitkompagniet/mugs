@@ -30,47 +30,23 @@ function gteQuery(gteObject = {}) {
 	return _.mapValues(gteObject, value => ({ $gte: value }));
 }
 
-function roleQuery(requestingUserRoles, roleQuery) {
+function roleQuery(requestingUserRoles, explicitRoles) {
 	if (!requestingUserRoles) return {};
 	const m = mercutio(requestingUserRoles);
-
-
-	if (m.is('member@/')) return {};
-
 	const scopeQuery = m
 		.rationalize()
 		.toArray()
 		.filter(role => ['*', 'member'].includes(role.role))
-		.map(role => ({ scope: new RegExp(`^${role.scope}`, 'i') }));
-
-
+		.map(role => ({ scope: new RegExp(`${role.scope}`, 'i') }));
 	const publicQuery = [{ scope: 'public' }];
-	const fullOrQuery = publicQuery.concat(scopeQuery);
-	let query;
-	if (rolesQuery) {
-		query = { roles: { $elemMatch: { $or: fullOrQuery } } };
-	} else {
-		query = {
-			roles: {
-				$elemMatch: {
-					$and: [
-						{
-							role: roleQuery,
-							scope: '',
-						},
-						{
-							$or: fullOrQuery,
-						}
-					]
 
+	const explicitQuery = (Array.isArray(explicitRoles) ? explicitRoles : ((explicitRoles && [explicitRoles]) || []))
+		.map(r => (r.indexOf('@') === -1 ? ({ role: r }) : ({ role: r.split('@')[0], scope: r.split('@')[1] })));
 
-					},
-				},
-			},
-		};
-	}
+	const fullOrQuery = { $or: publicQuery.concat(scopeQuery) };
+	const elementQuery = explicitQuery.length > 0 ? { $and: [explicitQuery[0]] } : fullOrQuery;
 
-	return query;
+	return { roles: { $elemMatch: elementQuery } };
 }
 
 function findQuery(query) {
@@ -80,7 +56,7 @@ function findQuery(query) {
 		inQuery(query.in),
 		lteQuery(query.lte),
 		gteQuery(query.gte),
-		roleQuery(query.roles)
+		roleQuery(query.roles, query.role)
 	);
 }
 
@@ -98,7 +74,6 @@ function limitQuery(query) {
 
 module.exports = function(query = {}) {
 	const q = this.find(findQuery(query));
-
 	if ('sort' in query) q.sort(sortQuery(query));
 	if ('limit' in query) q.limit(limitQuery(query));
 	if ('skip' in query) q.skip(skipQuery(query));

@@ -11,19 +11,9 @@ module.exports = function(store) {
 				const query = _.merge({}, req.query, {
 					roles: req.identity.user.roles,
 				});
-				console.log(query);
-
-				let result;
-				if (req.query.role) {
-					if (req.query.role.indexOf('@') === -1) {
-						result = await store.list(query, req.query.role);
-						result = result.filter(user => mercutio(user.roles).whereIs(req.query.role));
-					} else {
-						result = await store.list(query);
-						const requiredUserRoles = mercutio(req.query.role);
-						result = result.filter(user => mercutio(user.roles).isAny(requiredUserRoles));
-					}
-				}
+				let result = await store.list(query);
+				const requiredUserRoles = mercutio(req.identity.user.roles);
+				result = result.filter(user => mercutio(requiredUserRoles).isAny(user.roles));
 
 				return res.success(result);
 			} catch (e) {
