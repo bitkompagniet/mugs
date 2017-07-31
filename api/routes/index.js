@@ -28,7 +28,7 @@ module.exports = function createRouter(store, config) {
 	router.get('/register/:token', confirmRegister(store));
 
 	// Login
-	router.post('/login', login(store));
+	router.post('/login', login(store, config.unconfirmedLogins));
 
 	// Password recovery
 	router.get('/verify/:token', verify());
