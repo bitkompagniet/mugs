@@ -6,7 +6,6 @@ module.exports = function(store) {
 			await store.changePasswordWithRecovery(email, recoveryToken, password);
 			return res.success();
 		} catch (e) {
-			console.log(e);
 			return next(e);
 		}
 	};

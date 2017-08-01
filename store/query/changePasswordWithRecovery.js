@@ -3,8 +3,6 @@ const passwordHash = require('../util/passwordHash');
 module.exports = async function(email, recoveryToken, newPassword) {
 	const user = await this.getByEmail(email);
 	const rawUser = await this.findById(user.id);
-	console.log(recoveryToken);
-	console.log(rawUser.resetPasswordToken);
 	if (rawUser.resetPasswordToken && recoveryToken == rawUser.resetPasswordToken) {
 		try {
 			rawUser.password = newPassword;
