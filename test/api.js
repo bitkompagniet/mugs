@@ -239,6 +239,24 @@ describe('api', function () {
 		});
 	});
 
+	describe('DELETE /:id', function() {
+		it('should correctly remove the specified user', async function() {
+			const c = await authClient();
+			var payload = await c.post('/', { email: 'testToDelete@test.dk', password: 'test' });
+			const userid = payload.data.result._id;
+			
+			payload = await c.get(`/`);
+			const userCount = payload.data.result.length;
+			
+			payload = await c.delete(`/${userid}`);
+			payload.data.success.should.be.ok;
+
+			payload = await c.get(`/`);
+			payload.data.result.should.have.length(userCount-1)
+
+		});
+	});
+	
 	after(() => {
 		serverInstance.close();
 	});
