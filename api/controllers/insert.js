@@ -9,7 +9,7 @@ module.exports = function(store) {
 	return [
 		requireUserAdmin(),
 		ensureFirstLastname(),
-		// validateBodyRoleAssignments(),
+		validateBodyRoleAssignments(),
 		allowedBodyProperties(['email', 'firstname', 'lastname', 'password', 'data', 'roles']),
 
 		async function(req, res, next) {

@@ -111,6 +111,25 @@ describe('api', function () {
 		});
 	});
 
+	describe('PUT /me', function() {
+		it('should modify user object only in whitelisted fields', async function() {
+			const c = await authClient();
+			const payload = await c.put('/me', { lastname: 'Jensen', created: 'blabla' });
+			const modifiedUser = await c.get(`/${payload.data.result._id}`);
+			modifiedUser.data.result.lastname.should.equal('Jensen');
+			modifiedUser.data.result.created.should.not.equal('blabla');
+		});
+
+		it('should not allow me to modify my own roles', async function() {
+			const user = await client.post('/register', { email: 'scopetest@putme.com', password: 'test' });
+			user.data.success.should.be.ok;
+			const loggedInClient = await loginClient('scopetest@putme.com', 'test');
+			const payload = await loggedInClient.put('/me', { roles: ['admin@somescope'] });
+			payload.data.success.should.be.ok;
+			payload.data.result.roles.filter(r => r.scope === 'somescope').should.have.length(0);
+		});
+	});
+
 	describe('GET /verify/:token', function() {
 		it('should be able to verify and renew a valid token', function() {
 			let firstToken = null;
@@ -147,6 +166,14 @@ describe('api', function () {
 			const payload = await c.post('/', { email: 'test2@test.dk', password: 'hest', roles: ['sag', 'sag@uh', { role: 'yoo' }, { role: 'yoo', scope: 'hmm' }] });
 			should.exist(payload.data.result.roles);
 			payload.data.result.roles.length.should.equal(6);
+		});
+
+		it('should not allow a normal user admin to assign roles outside his scope', async function() {
+			const c = await authClient();
+			await c.post('/', { email: 'userAdmin@mugs.info', password: 'hest', roles: ['*@users'] });
+			const userAdmin = await loginClient('userAdmin@mugs.info', 'hest');
+			const payload = await userAdmin.post('/', { email: 'regularuseradmin@postmugs.info', password: 'hest', roles: ['admin@somescope'] });
+			payload.data.success.should.not.be.ok;
 		});
 	});
 
