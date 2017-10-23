@@ -32,6 +32,7 @@ module.exports = function (db) {
 		email: { type: String, required: true, index: { unique: true }, validate: value => validator.isEmail(value) },
 		firstname: { type: String, required: false },
 		lastname: { type: String, required: false },
+		salt: { type: String, required: false },
 		password: { type: String, required: true, set: passwordHash },
 		created: { type: Date, default: Date.now },
 		updated: { type: Date, default: null },
@@ -49,6 +50,7 @@ module.exports = function (db) {
 			virtuals: true,
 			transform(doc, ret) {
 				delete ret.password;
+				delete ret.salt;
 				delete ret.__t;
 				delete ret.__v;
 				delete ret.confirmationToken;
