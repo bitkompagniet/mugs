@@ -11,13 +11,9 @@ module.exports = function(store) {
 				const query = _.merge({}, req.query, {
 					roles: req.identity.user.roles,
 				});
-
 				let result = await store.list(query);
-
-				if (req.query.role) {
-					const requiredUserRoles = mercutio(req.query.role);
-					result = result.filter(user => mercutio(user.roles).isAny(requiredUserRoles));
-				}
+				const requiredUserRoles = mercutio(req.identity.user.roles);
+				result = result.filter(user => mercutio(requiredUserRoles).isAny(user.roles));
 
 				return res.success(result);
 			} catch (e) {
