@@ -12,6 +12,7 @@ module.exports = function (store, config) {
 	app.use(bodyParser.json());
 	app.use(configuration(config));
 	app.use(respondo.authorizationIdentity(config.secret));
+
 	app.use(mercutio.identity(config.secret));
 	app.use(routes(store, config));
 	app.use(respondo.errors(false));
